@@ -8,6 +8,8 @@ import javax.swing.*;
  * Scaffold for PS-1, Dartmouth CS 10, Fall 2016
  * 
  * @author Chris Bailey-Kellogg, Spring 2015 (based on a different webcam app from previous terms)
+ * @author Daniel Carstensen, Winter 2022, modified the scaffold to function as a webcam-based painting program
+ * @author Max Lawrence, Winter 2022
  */
 public class CamPaint extends Webcam {
 	private char displayMode = 'w';			// what to display: 'w': live webcam, 'r': recolored image, 'p': painting
@@ -20,15 +22,15 @@ public class CamPaint extends Webcam {
 	 * Initializes the region finder and the drawing
 	 */
 	public CamPaint() {
-		finder = new RegionFinder();
-		clearPainting();
+		finder = new RegionFinder();		// instantiate new region finder
+		clearPainting();					// method call to instantiate a blank image
 	}
 
 	/**
 	 * Resets the painting to a blank image
 	 */
 	protected void clearPainting() {
-		painting = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		painting = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);		// instantiate a blank image
 	}
 
 	/**
@@ -38,28 +40,28 @@ public class CamPaint extends Webcam {
 	@Override
 	public void draw(Graphics g) {
 		if (displayMode == 'w') {
-			g.drawImage(this.image, 0, 0, null);
+			g.drawImage(this.image, 0, 0, null);		// draws the original, unmodified webcam image
 		}
 		else if (displayMode == 'r') {
-			g.drawImage(finder.getRecoloredImage(), 0, 0, null);
+			g.drawImage(finder.getRecoloredImage(), 0, 0, null);		// draws the output of finder calling its .getRecoloredImage() method
 		}
 		else if (displayMode == 'p') {
-			g.drawImage(painting, 0, 0, null);
+			g.drawImage(painting, 0, 0, null);		// draws the painting
 		}
 	}
 
 	/**
-	 * Webcam method, here finding regions and updating the painting.
+	 * Webcam method, here finding regions, recoloring the image, and updating the painting.
 	 */
 	@Override
 	public void processImage() {
-		if (targetColor != null) {
-			finder.setImage(this.image);
-			finder.findRegions(targetColor);
-			finder.recolorImage();
-			if (finder.largestRegion() != null) {
-				for (Point point : finder.largestRegion()) {
-					painting.setRGB((int) point.getX(), (int) point.getY(), paintColor.getRGB());
+		if (targetColor != null) {		// only runs if a target color has been selected by the user
+			finder.setImage(this.image);		// set image in the RegionFinder finder to the current webcam image
+			finder.findRegions(targetColor);		// finder calls its .findRegions() method to find all regions in the image that match the target color
+			finder.recolorImage();		// finder calls its .recolorImage() method to recolor the largest region found in the image
+			if (finder.largestRegion() != null) {		// only runs if largest region exists
+				for (Point point : finder.largestRegion()) {		// for every pixel in largest region
+					painting.setRGB((int) point.getX(), (int) point.getY(), paintColor.getRGB());		// set the corresponding pixel in painting to paintColor
 				}
 			}
 		}
@@ -70,9 +72,9 @@ public class CamPaint extends Webcam {
 	 */
 	@Override
 	public void handleMousePress(int x, int y) {
-		if (image != null) {
-			targetColor = new Color(image.getRGB(x, y));
-			System.out.println("tracking " + targetColor);
+		if (image != null) {		// if an image has been instantiated
+			targetColor = new Color(image.getRGB(x, y));		// set the target color to the color of the pixel clicked by the mouse
+			System.out.println("tracking " + targetColor);		// print statement to confirm the tracking of the selected color
 		}
 	}
 
@@ -81,16 +83,16 @@ public class CamPaint extends Webcam {
 	 */
 	@Override
 	public void handleKeyPress(char k) {
-		if (k == 'p' || k == 'r' || k == 'w') { // display: painting, recolored image, or webcam
+		if (k == 'p' || k == 'r' || k == 'w') { 	// display: painting, recolored image, or webcam
 			displayMode = k;
 		}
-		else if (k == 'c') { // clear
+		else if (k == 'c') { 	// clear
 			clearPainting();
 		}
-		else if (k == 'o') { // save the recolored image
+		else if (k == 'o') { 	// save the recolored image
 			saveImage(finder.getRecoloredImage(), "pictures/recolored.png", "png");
 		}
-		else if (k == 's') { // save the painting
+		else if (k == 's') { 	// save the painting
 			saveImage(painting, "pictures/painting.png", "png");
 		}
 		else {

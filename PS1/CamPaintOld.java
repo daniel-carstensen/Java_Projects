@@ -9,9 +9,9 @@ import javax.swing.*;
  * 
  * @author Chris Bailey-Kellogg, Spring 2015 (based on a different webcam app from previous terms)
  */
-public class CamPaintV2 extends Webcam {
+public class CamPaintOld extends Webcam {
 	private char displayMode = 'w';			// what to display: 'w': live webcam, 'r': recolored image, 'p': painting
-	private RegionFinderV2 finder;			// handles the finding
+	private RegionFinderOld finder;			// handles the finding
 	private Color targetColor;          	// color of regions of interest (set by mouse press)
 	private Color paintColor = Color.blue;	// the color to put into the painting from the "brush"
 	private BufferedImage painting;			// the resulting masterpiece
@@ -19,8 +19,8 @@ public class CamPaintV2 extends Webcam {
 	/**
 	 * Initializes the region finder and the drawing
 	 */
-	public CamPaintV2() {
-		finder = new RegionFinderV2();
+	public CamPaintOld() {
+		finder = new RegionFinderOld();
 		clearPainting();
 	}
 
@@ -99,7 +99,7 @@ public class CamPaintV2 extends Webcam {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new CamPaintV2();
+				new CamPaintOld();
 			}
 		});
 	}

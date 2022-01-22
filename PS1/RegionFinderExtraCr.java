@@ -1,6 +1,6 @@
 import java.awt.*;
-import java.awt.image.*;
-import java.util.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static java.awt.Color.blue;
 
@@ -13,7 +13,7 @@ import static java.awt.Color.blue;
  * @author Travis W. Peters, Dartmouth CS 10, Updated Winter 2015
  * @author CBK, Spring 2015, updated for CamPaint
  */
-public class RegionFinder {
+public class RegionFinderExtraCr {
 	private static final int maxColorDiff = 2000;				// how similar a pixel color must be to the target color, to belong to a region
 	private static final int minRegion = 50; 				// how many points in a region to be worth considering
 
@@ -24,11 +24,11 @@ public class RegionFinder {
 	private ArrayList<ArrayList<Point>> regions;			// a region is a list of points
 															// so the identified regions are in a list of lists of points
 
-	public RegionFinder() {
+	public RegionFinderExtraCr() {
 		this.image = null;
 	}
 
-	public RegionFinder(BufferedImage image) {
+	public RegionFinderExtraCr(BufferedImage image) {
 		this.image = image;		
 	}
 

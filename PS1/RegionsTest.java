@@ -13,7 +13,7 @@ import javax.swing.*;
 public class RegionsTest extends DrawingGUI {
 	private BufferedImage image;
 
-	public RegionsTest(String name, RegionFinderOld finder, Color targetColor) {
+	public RegionsTest(String name, RegionFinderTest finder, Color targetColor) {
 		super(name, finder.getImage().getWidth(), finder.getImage().getHeight());
 
 		// Do the region finding and recolor the image.
@@ -30,7 +30,7 @@ public class RegionsTest extends DrawingGUI {
 	public static void main(String[] args) { 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new RegionsTest("baker", new RegionFinderOld(loadImage("/Users/danielcarstensen/IdeaProjects/PS1/baker.jpg")), new Color(130, 100, 100));
+				new RegionsTest("baker", new RegionFinderTest(loadImage("PS1/baker.jpg")), new Color(130, 100, 100));
 			}
 		});
 	}

@@ -8,6 +8,8 @@ import javax.swing.*;
  * Scaffold for PS-1, Dartmouth CS 10, Fall 2016
  * 
  * @author Chris Bailey-Kellogg, Spring 2015 (based on a different webcam app from previous terms)
+ *
+ * test comment
  */
 public class CamPaintOld extends Webcam {
 	private char displayMode = 'w';			// what to display: 'w': live webcam, 'r': recolored image, 'p': painting

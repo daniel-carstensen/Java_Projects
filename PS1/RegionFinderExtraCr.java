@@ -73,7 +73,7 @@ public class RegionFinderExtraCr {
 		this.regions = new ArrayList<ArrayList<Point>>();
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				Color c = new Color(image.getRGB(x,y));
+				Color c = new Color(helperImage.getRGB(x,y));
 				if (colorMatch(c, targetColor)) {
 					ArrayList<Point> newRegion = new ArrayList<>();
 					newRegion = regionGrowth(new Point(x, y), targetColor);

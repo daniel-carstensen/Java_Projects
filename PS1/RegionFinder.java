@@ -61,7 +61,7 @@ public class RegionFinder {
         for (int y = 0; y < image.getHeight(); y++) {  // loop over every pixel
             for (int x = 0; x < image.getWidth(); x++) {
                 // get the color for each pixel and test it against the targetColor
-                Color c = new Color(image.getRGB(x,y));
+                Color c = new Color(helperImage.getRGB(x,y));
                 if (colorMatch(c, targetColor)) {
                     // if the color matches, create a new region and execute the regionGrowth algorithm at the current pixel
                     ArrayList<Point> newRegion = new ArrayList<>();

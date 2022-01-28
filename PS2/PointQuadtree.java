@@ -69,23 +69,59 @@ public class PointQuadtree<E extends Point2D> {
 	/**
 	 * Inserts the point into the tree
 	 */
-	public void insert(E p2) {
-		// TODO: YOUR CODE HERE
+	public void insert(E p2) { // uses the mathematical quadrants
+		if (p2.getX() <= point.getX()) {
+			if (p2.getY() <= point.getY()) {
+				if (hasChild(2)) {
+					c2.insert(p2);
+				} else {
+					this.c2 = new PointQuadtree<E>(p2, this.x1, this.y1, (int)point.getX(), (int)point.getY());
+				}
+			} else {
+				if (hasChild(3)) {
+					c3.insert(p2);
+				} else {
+					c3 = new PointQuadtree<E>(p2, this.x1, (int)point.getY(), (int)point.getX(), this.y2);
+				}
+			}
+		} else if (p2.getY() <= point.getY()) {
+			if (hasChild(1)) {
+				c1.insert(p2);
+			} else {
+				c1 = new PointQuadtree<E>(p2, (int)point.getX(), y1, x2, (int)point.getY());
+			}
+		} else {
+			if (hasChild(4)) {
+				c4.insert(p2);
+			} else {
+				c4 = new PointQuadtree<E>(p2, (int)point.getX(), (int)point.getY(), x2, y2);
+			}
+		}
 	}
 	
 	/**
 	 * Finds the number of points in the quadtree (including its descendants)
 	 */
 	public int size() {
-		// TODO: YOUR CODE HERE
+		int size = 1;
+		int size1 = 0;
+		int size2 = 0;
+		int size3 = 0;
+		int size4 = 0;
+		if (hasChild(1)) size1 = c1.size();
+		if (hasChild(2)) size2 = c2.size();
+		if (hasChild(3)) size3 = c3.size();
+		if (hasChild(4)) size4 = c4.size();
+		size = size + size1 + size2 + size3 + size4;
+		return size;
 	}
 	
 	/**
 	 * Builds a list of all the points in the quadtree (including its descendants)
 	 */
-	public List<E> allPoints() {
-		// TODO: YOUR CODE HERE
-	}	
+//	public List<E> allPoints() {
+//
+//	}
 
 	/**
 	 * Uses the quadtree to find all points within the circle
@@ -94,10 +130,25 @@ public class PointQuadtree<E extends Point2D> {
 	 * @param cr  	circle radius
 	 * @return    	the points in the circle (and the qt's rectangle)
 	 */
-	public List<E> findInCircle(double cx, double cy, double cr) {
-		// TODO: YOUR CODE HERE
+
+	public ArrayList<E> findInCircle(double cx, double cy, double cr) {
+		ArrayList<E> list = new ArrayList<E>();
+		return list;
 	}
-
 	// TODO: YOUR CODE HERE for any helper methods.
+	public static void main(String[] args) { // to test methods as we write them
+		PointQuadtree<Point2D> quadtree = new PointQuadtree<Point2D>(new Blob(5, 5), 0, 0, 10, 10 );
+		quadtree.insert(new Blob(2, 2));
+		System.out.println(quadtree.size());
+		quadtree.insert(new Blob(6, 6));
+		System.out.println(quadtree.size());
+		quadtree.insert(new Blob(2, 6));
+		System.out.println(quadtree.size());
+		quadtree.insert(new Blob(6, 2));
+		System.out.println(quadtree.size());
 
+
+
+
+	}
 }

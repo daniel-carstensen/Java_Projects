@@ -145,7 +145,7 @@ public class DrawingGUI extends JFrame {
 	 * Method to handle a key press, to be overridden by subclasses.
 	 * @param key	the key that was pressed
 	 */
-	public void handleKeyPress(char key) {
+	public void handleKeyPress(char key) throws Exception {
 	}
 
 	/**

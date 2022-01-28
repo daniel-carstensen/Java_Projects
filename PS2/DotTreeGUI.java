@@ -96,7 +96,7 @@ public class DotTreeGUI extends DrawingGUI {
 	 * test tree 0 -- first three points from figure in handout
 	 * hardcoded point locations for 800x600
 	 */
-	private void test0() {
+	private void test0() throws Exception {
 		found = null;
 		tree = new PointQuadtree<Dot>(new Dot(400,300), 0,0,800,600); // start with A
 		tree.insert(new Dot(150,450)); // B
@@ -116,7 +116,7 @@ public class DotTreeGUI extends DrawingGUI {
 	 * test tree 1 -- figure in handout
 	 * hardcoded point locations for 800x600
 	 */
-	private void test1() {
+	private void test1() throws Exception{
 		found = null;
 		tree = new PointQuadtree<Dot>(new Dot(300,400), 0,0,800,600); // start with A
 		tree.insert(new Dot(150,450)); // B
@@ -144,7 +144,7 @@ public class DotTreeGUI extends DrawingGUI {
 	 * and increasing/decresing mouseRadius via +/-
 	 */
 	@Override
-	public void handleKeyPress(char key) {
+	public void handleKeyPress(char key) throws Exception {
 		if (key=='a' || key=='q') mode = key;
 		else if (key=='+') {
 			mouseRadius += 10;

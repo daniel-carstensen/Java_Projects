@@ -69,7 +69,10 @@ public class PointQuadtree<E extends Point2D> {
 	/**
 	 * Inserts the point into the tree
 	 */
-	public void insert(E p2) { // uses the mathematical quadrants
+	public void insert(E p2) throws Exception{ // uses the mathematical quadrants
+		if (p2.getX() < this.x1 || p2.getX() > this.x2 || p2.getY() < this.y1 || p2.getY() > this.y2) {
+			throw new Exception("coordinate out of bounds");
+		}
 		if (p2.getX() <= point.getX()) {
 			if (p2.getY() <= point.getY()) {
 				if (hasChild(2)) {
@@ -136,7 +139,7 @@ public class PointQuadtree<E extends Point2D> {
 		return list;
 	}
 	// TODO: YOUR CODE HERE for any helper methods.
-	public static void main(String[] args) { // to test methods as we write them
+	public static void main(String[] args) throws Exception { // to test methods as we write them
 		PointQuadtree<Point2D> quadtree = new PointQuadtree<Point2D>(new Blob(5, 5), 0, 0, 10, 10 );
 		quadtree.insert(new Blob(2, 2));
 		System.out.println(quadtree.size());

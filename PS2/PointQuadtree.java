@@ -157,35 +157,22 @@ public class PointQuadtree<E extends Point2D> {
 		List<E> list3 = new ArrayList<E>();
 		List<E> list4 = new ArrayList<E>();
 
-		if (cx + cr < x1 || cx - cr > x2 || cy + cr < y1 || cy - cr > y2) {return list;}
+		if (!Geometry.circleIntersectsRectangle(cx, cy, cr, x1, y1, x2, y2)) {return list;}
 
 		// check the circle against the current point
-		if ((point.getX() >= (int)(cx - 2*cr) && point.getX() <= (int)(cx + 2*cr)) && (point.getY() >= (int)(cy - 2*cr) && point.getY() <= (int)(cy + 2*cr))) {
-			list.add(point);
+		if (Geometry.pointInCircle(point.getX(), point.getY(), cx, cy, cr)) {list.add(point);}
+
+		if (hasChild(1)) {
+			list1 = c1.findInCircle(cx, cy, cr);
 		}
-		// check quad 1
-		if (cx + (2 * cr) >= point.getX() && cy - (2 * cr) <= point.getY()) {
-			if (hasChild(1)) {
-				list1 = c1.findInCircle(cx, cy, cr);
-			}
+		if (hasChild(2)) {
+			list2 = c2.findInCircle(cx, cy, cr);
 		}
-		// check quad 2
-		if (cx - (2 * cr) <= point.getX() && cy - (2 * cr) <= point.getY()) {
-			if (hasChild(2)) {
-				list2 = c2.findInCircle(cx, cy, cr);
-			}
+		if (hasChild(3)) {
+			list3 = c3.findInCircle(cx, cy, cr);
 		}
-		// check quad 3
-		if (cx - (2 * cr) <= point.getX() && cy + (2 * cr) >= point.getY()) {
-			if (hasChild(3)) {
-				list3 = c3.findInCircle(cx, cy, cr);
-			}
-		}
-		// check quad 4
-		if (cx + (2 * cr) >= point.getX() && cy + (2 * cr) >= point.getY()) {
-			if (hasChild(4)) {
-				list4 = c4.findInCircle(cx, cy, cr);
-			}
+		if (hasChild(4)) {
+			list4 = c4.findInCircle(cx, cy, cr);
 		}
 
 		list.addAll(list1);

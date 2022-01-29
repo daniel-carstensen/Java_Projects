@@ -77,7 +77,11 @@ public class DrawingGUI extends JFrame {
 		});
 		addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent event) {
-				handleKeyPress(event.getKeyChar());
+				try {
+					handleKeyPress(event.getKeyChar());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		timer = new Timer(delay, new AbstractAction("update") {

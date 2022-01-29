@@ -122,9 +122,33 @@ public class PointQuadtree<E extends Point2D> {
 	/**
 	 * Builds a list of all the points in the quadtree (including its descendants)
 	 */
-//	public List<E> allPoints() {
-//
-//	}
+	public List<E> allPoints() {
+		List<E> allPointsList = new ArrayList<E>();
+		allPointsList.add(point);
+		List<E> allPointsListC1 = new ArrayList<E>();
+		List<E> allPointsListC2 = new ArrayList<E>();
+		List<E> allPointsListC3 = new ArrayList<E>();
+		List<E> allPointsListC4 = new ArrayList<E>();
+		if (hasChild(1)) allPointsListC1 = c1.allPoints();
+		if (hasChild(2)) allPointsListC2 = c2.allPoints();
+		if (hasChild(3)) allPointsListC3 = c3.allPoints();
+		if (hasChild(4)) allPointsListC4 = c4.allPoints();
+
+		for (E elements : allPointsListC1) {
+			allPointsList.add(elements);
+		}
+		for (E elements : allPointsListC2) {
+			allPointsList.add(elements);
+		}
+		for (E elements : allPointsListC3) {
+			allPointsList.add(elements);
+		}
+		for (E elements : allPointsListC4) {
+			allPointsList.add(elements);
+		}
+
+		return allPointsList;
+	}
 
 	/**
 	 * Uses the quadtree to find all points within the circle
@@ -149,6 +173,9 @@ public class PointQuadtree<E extends Point2D> {
 		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(6, 2));
 		System.out.println(quadtree.size());
+		quadtree.insert(new Blob(3, 2));
+		System.out.println(quadtree.size());
+		System.out.println(quadtree.allPoints());
 
 
 

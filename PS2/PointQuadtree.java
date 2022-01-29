@@ -157,6 +157,8 @@ public class PointQuadtree<E extends Point2D> {
 		List<E> list3 = new ArrayList<E>();
 		List<E> list4 = new ArrayList<E>();
 
+		if (cx + cr < x1 || cx - cr > x2 || cy + cr < y1 || cy - cr > y2) {return list;}
+
 		// check the circle against the current point
 		if ((point.getX() >= (int)(cx - 2*cr) && point.getX() <= (int)(cx + 2*cr)) && (point.getY() >= (int)(cy - 2*cr) && point.getY() <= (int)(cy + 2*cr))) {
 			list.add(point);

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-// lets see if this comment is sent
 /**
  * Using a quadtree for collision detection
  * 
@@ -20,7 +19,7 @@ public class CollisionGUI extends DrawingGUI {
 	private List<Blob> blobs;						// all the blobs
 	private List<Blob> colliders;					// the blobs who collided at this step
 	private char blobType = 'b';						// what type of blob to create
-	private char collisionHandler = 'c';				// when there's a collision, 'c'olor them, or 'd'estroy them
+	private char collisionHandler = 'c';				// when there's a collision, color them, or destroy them
 	private int delay = 100;							// timer control
 
 	public CollisionGUI() {
@@ -33,7 +32,7 @@ public class CollisionGUI extends DrawingGUI {
 	}
 
 	/**
-	 * Adds an blob of the current blobType at the location
+	 * Adds a blob of the current blobType at the location
 	 */
 	private void add(int x, int y) {
 		if (blobType=='b') {
@@ -89,8 +88,15 @@ public class CollisionGUI extends DrawingGUI {
 	 */
 	public void draw(Graphics g) {
 		// TODO: YOUR CODE HERE
-		// Ask all the blobs to draw themselves.
-		// Ask the colliders to draw themselves in red.
+		for (Blob blob : blobs) {		// Ask all the blobs to draw themselves.
+			blob.draw(g);
+		}
+		if (colliders != null) {
+			g.setColor(Color.red);
+			for (Blob collider : colliders) {        // Ask the colliders to draw themselves in red.
+				collider.draw(g);
+			}
+		}
 	}
 
 	/**
@@ -98,8 +104,34 @@ public class CollisionGUI extends DrawingGUI {
 	 */
 	private void findColliders() {
 		// TODO: YOUR CODE HERE
-		// Create the tree
+		colliders = new ArrayList<>();
+		PointQuadtree<Blob> colliderTree = new PointQuadtree<>(blobs.get(0), 0, 0, 800, 600);
+		for (int index=1; index < blobs.size(); index++) {
+			colliderTree.insert(blobs.get(index));
+		}
 		// For each blob, see if anybody else collided with it
+		colliders = addColliders(colliderTree);
+	}
+
+	private ArrayList addColliders(PointQuadtree tree) {
+		ArrayList colliderList = new ArrayList<>();
+		List colliderListC1 = new ArrayList<>();
+		List colliderListC2 = new ArrayList<>();
+		List colliderListC3 = new ArrayList<>();
+		List colliderListC4 = new ArrayList<>();
+
+		ArrayList<Blob> temp = tree.findInCircle(tree.getPoint().getX(), tree.getPoint().getY(), 10);
+		if (temp.size() > 1) colliderList = temp;
+		if (tree.hasChild(1)) colliderListC1 = addColliders(tree.getChild(1));
+		if (tree.hasChild(2)) colliderListC2 = addColliders(tree.getChild(2));
+		if (tree.hasChild(3)) colliderListC3 = addColliders(tree.getChild(3));
+		if (tree.hasChild(4)) colliderListC4 = addColliders(tree.getChild(4));
+
+		colliderList.addAll(colliderListC1);
+		colliderList.addAll(colliderListC2);
+		colliderList.addAll(colliderListC3);
+		colliderList.addAll(colliderListC4);
+		return colliderList;
 	}
 
 	/**

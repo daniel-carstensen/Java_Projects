@@ -69,11 +69,10 @@ public class PointQuadtree<E extends Point2D> {
 	/**
 	 * Inserts the point into the tree
 	 */
-	public void insert(E p2) throws Exception{ // uses the mathematical quadrants
+	public void insert(E p2) { // uses the mathematical quadrants
 		if (p2.getX() < this.x1 || p2.getX() > this.x2 || p2.getY() < this.y1 || p2.getY() > this.y2) {
-			throw new Exception("coordinate out of bounds");
-		}
-		if (p2.getX() <= point.getX()) {
+			System.out.println("coordinate out of bounds");
+		} else if (p2.getX() <= point.getX()) {
 			if (p2.getY() <= point.getY()) {
 				if (hasChild(2)) {
 					c2.insert(p2);

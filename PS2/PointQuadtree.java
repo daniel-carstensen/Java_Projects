@@ -200,7 +200,7 @@ public class PointQuadtree<E extends Point2D> {
 		System.out.println(quadtree.allPoints());
 		
 		ArrayList<Point2D> collisionList = quadtree.findInCircle(2, 2, 1);
-		
+
 		for (Point2D point : collisionList) {
 			System.out.println(point.getX());
 			System.out.println(point.getY());

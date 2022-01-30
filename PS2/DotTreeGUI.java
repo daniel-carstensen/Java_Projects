@@ -140,6 +140,25 @@ public class DotTreeGUI extends DrawingGUI {
 		bad += testFind(0,0,900,12,12,12);	// rect for all; circle for all; find all
 		if (bad==0) System.out.println("test 1 passed!");
 	}
+	private void test2(){
+		found = null;
+		tree = new PointQuadtree<Dot>(new Dot(400,500), 0,0,800,600); // start with A
+		tree.insert(new Dot(300,400)); // B
+		tree.insert(new Dot(250,300)); // C
+		tree.insert(new Dot(150,250)); // D
+		tree.insert(new Dot(125,200)); // E
+		tree.insert(new Dot(50,100)); // F
+		tree.insert(new Dot(600,550)); // G
+		tree.insert(new Dot(650,250)); // H
+		tree.insert(new Dot(200,550)); // I
+
+		int bad = 0;
+		bad += testFind(45,105,10,9,6,1); 	// rect for A [B [C [D [E [F]] [G] [H] [I]; circle for A, B, C, D, E, F; find B
+		bad += testFind(605,545,10,5,2,1);    // rect for A [B] [G] [H] [I]; circle for A, G; find G
+		bad += testFind(655,250,10,5,2,1);    // rect for A [B] [G] [H] [I]; circle for A, H; find H
+		bad += testFind(210,550,10,5,2,1);    // rect for A [B] [G] [H] [I]; circle for A, I; find I
+		if (bad==0) System.out.println("test 2 passed!");
+	}
 
 	/**
 	 * DrawingGUI method, here toggling the mode between 'a' and 'q'
@@ -163,6 +182,9 @@ public class DotTreeGUI extends DrawingGUI {
 		}
 		else if (key=='1') {
 			test1();
+		}
+		else if (key=='2') {
+			test2();
 		}
 
 

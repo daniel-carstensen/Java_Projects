@@ -134,18 +134,10 @@ public class PointQuadtree<E extends Point2D> {
 		if (hasChild(3)) allPointsListC3 = c3.allPoints();
 		if (hasChild(4)) allPointsListC4 = c4.allPoints();
 
-		for (E elements : allPointsListC1) {
-			allPointsList.add(elements);
-		}
-		for (E elements : allPointsListC2) {
-			allPointsList.add(elements);
-		}
-		for (E elements : allPointsListC3) {
-			allPointsList.add(elements);
-		}
-		for (E elements : allPointsListC4) {
-			allPointsList.add(elements);
-		}
+		allPointsList.addAll(allPointsListC1);
+		allPointsList.addAll(allPointsListC2);
+		allPointsList.addAll(allPointsListC3);
+		allPointsList.addAll(allPointsListC4);
 
 		return allPointsList;
 	}
@@ -160,22 +152,53 @@ public class PointQuadtree<E extends Point2D> {
 
 	public ArrayList<E> findInCircle(double cx, double cy, double cr) {
 		ArrayList<E> list = new ArrayList<E>();
+		List<E> list1 = new ArrayList<E>();
+		List<E> list2 = new ArrayList<E>();
+		List<E> list3 = new ArrayList<E>();
+		List<E> list4 = new ArrayList<E>();
+
+		if (!Geometry.circleIntersectsRectangle(cx, cy, cr, x1, y1, x2, y2)) {return list;}
+
+		// check the circle against the current point
+		if (Geometry.pointInCircle(point.getX(), point.getY(), cx, cy, cr)) {list.add(point);}
+
+		if (hasChild(1)) {
+			list1 = c1.findInCircle(cx, cy, cr);
+		}
+		if (hasChild(2)) {
+			list2 = c2.findInCircle(cx, cy, cr);
+		}
+		if (hasChild(3)) {
+			list3 = c3.findInCircle(cx, cy, cr);
+		}
+		if (hasChild(4)) {
+			list4 = c4.findInCircle(cx, cy, cr);
+		}
+
+		list.addAll(list1);
+		list.addAll(list2);
+		list.addAll(list3);
+		list.addAll(list4);
 		return list;
 	}
+
 	// TODO: YOUR CODE HERE for any helper methods.
 	public static void main(String[] args) throws Exception { // to test methods as we write them
 		PointQuadtree<Point2D> quadtree = new PointQuadtree<Point2D>(new Blob(5, 5), 0, 0, 10, 10 );
 		quadtree.insert(new Blob(2, 2));
-		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(6, 6));
-		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(2, 6));
-		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(6, 2));
-		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(3, 2));
-		System.out.println(quadtree.size());
-		quadtree.allPoints();
 		System.out.println(quadtree.allPoints());
+		ArrayList<Point2D> collisionList = quadtree.findInCircle(2, 2, 1);
+		for (Point2D point : collisionList) {
+			System.out.println(point.getX());
+			System.out.println(point.getY());
+		}
+
+
+
+
 	}
 }

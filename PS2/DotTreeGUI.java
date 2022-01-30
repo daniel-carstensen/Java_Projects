@@ -49,12 +49,12 @@ public class DotTreeGUI extends DrawingGUI {
 	public void handleMousePress(int x, int y) {
 		if (mode == 'a') {
 			if (tree != null) {
-				tree.insert(new Dot(x, y));
+				tree.insert(new Dot(x, y)); // create a new dot at the mouse's location and add it to the tree
 			}
 		}
 		else if (mode == 'q') {
 			if (tree != null) {
-				found = tree.findInCircle(x, y, mouseRadius);
+				found = tree.findInCircle(x, y, mouseRadius); // test for dots within the radius around our mouse click
 			}
 		}
 		else {
@@ -204,6 +204,7 @@ public class DotTreeGUI extends DrawingGUI {
 		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), tree.getX1(), (int)tree.getPoint().getY());
 		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), tree.getX2(), (int)tree.getPoint().getY());
 
+		// recursively call drawTree on each child
 		for (int i = 1; i <= 4; i++) {
 			if (tree.hasChild(i)) {
 				drawTree(g, tree.getChild(i), level + 1);

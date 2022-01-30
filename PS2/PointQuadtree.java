@@ -175,10 +175,7 @@ public class PointQuadtree<E extends Point2D> {
 		System.out.println(quadtree.size());
 		quadtree.insert(new Blob(3, 2));
 		System.out.println(quadtree.size());
+		quadtree.allPoints();
 		System.out.println(quadtree.allPoints());
-
-
-
-
 	}
 }

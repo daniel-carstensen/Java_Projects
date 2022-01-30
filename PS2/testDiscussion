@@ -1,0 +1,10 @@
+We tested CollisionGUI in several different ways.
+First, we created a few blobs using the mouse creating with Bouncers and Wanderers. We observed that blobs were
+generally black but turned red when they collided with each other. Wanderers created at the same location also stayed
+red. We tested the same steps using 'r' to create multiple blobs at once at random locations with equal outcomes.
+We also tested the destruction mode. The blobs behaved as expected as disappeared when they collided with each other.
+Further, we tested the program stability when we created a large number of blobs and sped up the timeSteps.
+The program remained stable.
+
+Further, we observed the behavior of the program when we sped up or slowed down the timeSteps. The program
+remained stable and preserved its functionality.

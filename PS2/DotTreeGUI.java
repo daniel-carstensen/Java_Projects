@@ -48,12 +48,10 @@ public class DotTreeGUI extends DrawingGUI {
 	@Override
 	public void handleMousePress(int x, int y) {
 		if (mode == 'a') {
-			// Add a new dot at the point
-			// TODO: YOUR CODE HERE
+			tree.insert(new Dot(x, y));
 		}
 		else if (mode == 'q') {
-			// Set "found" to what tree says is near the mouse press
-			// TODO: YOUR CODE HERE
+			found = tree.findInCircle(x, y, mouseRadius);
 		}
 		else {
 			System.out.println("clicked at "+x+","+y);

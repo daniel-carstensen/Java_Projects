@@ -57,6 +57,7 @@ public class PointQuadtree<E extends Point2D> {
 		if (quadrant==2) return c2;
 		if (quadrant==3) return c3;
 		if (quadrant==4) return c4;
+
 		return null;
 	}
 
@@ -112,6 +113,7 @@ public class PointQuadtree<E extends Point2D> {
 		int size2 = 0;
 		int size3 = 0;
 		int size4 = 0;
+
 		// if root has children, recursively call size on all quadrants that contain a child until we hit the base case
 		// where the quadrants don't have children
 		if (hasChild(1)) size1 = c1.size();
@@ -120,7 +122,8 @@ public class PointQuadtree<E extends Point2D> {
 		if (hasChild(4)) size4 = c4.size();
 
 		size = size + size1 + size2 + size3 + size4;		// add up all the sizes
-		return size;
+
+		return size;		// return the size of the tree
 	}
 	
 	/**
@@ -133,6 +136,7 @@ public class PointQuadtree<E extends Point2D> {
 		List<E> allPointsListC2 = new ArrayList<E>();
 		List<E> allPointsListC3 = new ArrayList<E>();
 		List<E> allPointsListC4 = new ArrayList<E>();
+
 		// if root has children, recursively call allPoints on all quadrants that contain a child until we hit the base case
 		// where the quadrants don't have children
 		if (hasChild(1)) allPointsListC1 = c1.allPoints();
@@ -145,7 +149,7 @@ public class PointQuadtree<E extends Point2D> {
 		allPointsList.addAll(allPointsListC3);
 		allPointsList.addAll(allPointsListC4);
 
-		return allPointsList;
+		return allPointsList;		// return the list containing all points in the tree
 	}
 
 	/**
@@ -165,8 +169,10 @@ public class PointQuadtree<E extends Point2D> {
 
 		// if the circle is not within the frame, return an empty list
 		if (!Geometry.circleIntersectsRectangle(cx, cy, cr, x1, y1, x2, y2)) {return list;}
+
 		// check the circle against the current point, if within circle, add to list
 		if (Geometry.pointInCircle(point.getX(), point.getY(), cx, cy, cr)) {list.add(point);}
+
 		// if root has children, recursively call findInCircle on all quadrants that contain a child until we hit the base case
 		// where the quadrants don't have children
 		if (hasChild(1)) list1 = c1.findInCircle(cx, cy, cr);
@@ -179,18 +185,22 @@ public class PointQuadtree<E extends Point2D> {
 		list.addAll(list3);
 		list.addAll(list4);
 
-		return list;
+		return list;		// return the list containing all points within the circle
 	}
 
 	public static void main(String[] args) { // to test methods as we write them
 		PointQuadtree<Point2D> quadtree = new PointQuadtree<Point2D>(new Blob(5, 5), 0, 0, 10, 10 );
+
 		quadtree.insert(new Blob(2, 2));
 		quadtree.insert(new Blob(6, 6));
 		quadtree.insert(new Blob(2, 6));
 		quadtree.insert(new Blob(6, 2));
 		quadtree.insert(new Blob(3, 2));
+
 		System.out.println(quadtree.allPoints());
+
 		ArrayList<Point2D> collisionList = quadtree.findInCircle(2, 2, 1);
+		
 		for (Point2D point : collisionList) {
 			System.out.println(point.getX());
 			System.out.println(point.getY());

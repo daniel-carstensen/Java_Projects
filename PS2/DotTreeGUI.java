@@ -48,12 +48,14 @@ public class DotTreeGUI extends DrawingGUI {
 	@Override
 	public void handleMousePress(int x, int y) {
 		if (mode == 'a') {
-			// Add a new dot at the point
-			// TODO: YOUR CODE HERE
+			if (tree != null) {
+				tree.insert(new Dot(x, y));
+			}
 		}
 		else if (mode == 'q') {
-			// Set "found" to what tree says is near the mouse press
-			// TODO: YOUR CODE HERE
+			if (tree != null) {
+				found = tree.findInCircle(x, y, mouseRadius);
+			}
 		}
 		else {
 			System.out.println("clicked at "+x+","+y);
@@ -162,7 +164,7 @@ public class DotTreeGUI extends DrawingGUI {
 		else if (key=='1') {
 			test1();
 		}
-		// TODO: YOUR CODE HERE -- your test cases
+
 
 		repaint();
 	}
@@ -196,16 +198,24 @@ public class DotTreeGUI extends DrawingGUI {
 		// Set the color for this level
 		g.setColor(rainbow[level % rainbow.length]);
 		// Draw this node's dot and lines through it
-		// TODO: YOUR CODE HERE
+		g.fillOval((int)tree.getPoint().getX()-dotRadius, (int)tree.getPoint().getY()-dotRadius, 2*dotRadius, 2*dotRadius);
+		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), (int)tree.getPoint().getX(), tree.getY1());
+		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), (int)tree.getPoint().getX(), tree.getY2());
+		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), tree.getX1(), (int)tree.getPoint().getY());
+		g.drawLine((int)tree.getPoint().getX(), (int)tree.getPoint().getY(), tree.getX2(), (int)tree.getPoint().getY());
 
-		// Recurse with children
-		// TODO: YOUR CODE HERE
+		for (int i = 1; i <= 4; i++) {
+			if (tree.hasChild(i)) {
+				drawTree(g, tree.getChild(i), level + 1);
+			}
+		}
 	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new DotTreeGUI();
+
 			}
 		});
 	}

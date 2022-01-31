@@ -1,4 +1,5 @@
-We tested CollisionGUI in several different ways.
+We tested CollisionGUI in several different ways:
+
 First, we created a few blobs using the mouse creating with Bouncers and Wanderers. We observed that blobs were
 generally black but turned red when they collided with each other. Wanderers created at the same location also stayed
 red. We tested the same steps using 'r' to create multiple blobs at once at random locations with equal outcomes.

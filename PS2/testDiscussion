@@ -2,9 +2,21 @@ We tested CollisionGUI in several different ways.
 First, we created a few blobs using the mouse creating with Bouncers and Wanderers. We observed that blobs were
 generally black but turned red when they collided with each other. Wanderers created at the same location also stayed
 red. We tested the same steps using 'r' to create multiple blobs at once at random locations with equal outcomes.
-We also tested the destruction mode. The blobs behaved as expected as disappeared when they collided with each other.
+We also tested the destruction mode. The blobs behaved as expected by disappearing when they collided with each other.
 Further, we tested the program stability when we created a large number of blobs and sped up the timeSteps.
-The program remained stable.
-// Insert more tests?
-Further, we observed the behavior of the program when we sped up or slowed down the timeSteps. The program
-remained stable and preserved its functionality.
+The program remained stable and preserved its functionality.
+
+We tested DotTreeGUI using 3 different test:
+
+The first test, test0(), created 3 dots and added them to the tree.  Then, the test used the testFind() function to
+determine if the tree was constructed correctly and the blob searches were working exactly as intended.  The test
+completed successfully and printed the "test 0 passed!" message
+
+The second test, test1(), constructed a more complex tree that holds 12 dots.  Similarly to test0(), test1() used
+testFind() to analyze the PointQuadtree methods on a manually constructed tree.  As with test0(), test1() also ran
+as expected and printed the message "test 1 passed!"
+
+The third test, test2(), constructs a tree that holds 9 Dots.  These Dots are located so that 5 of them form a linear
+branch in quadrant 2.  Uses of testFinder() include finding the leaf of the 5 Dot branch (Dot F).  Then each Dot not
+in the branch in quadrant 2 is found to show how the number of tests changes based on where we are looking.  Each
+testFinder() call works as expected, so test2() runs and prints the message "test 2 passed!"

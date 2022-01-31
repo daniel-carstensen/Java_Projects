@@ -140,6 +140,11 @@ public class DotTreeGUI extends DrawingGUI {
 		bad += testFind(0,0,900,12,12,12);	// rect for all; circle for all; find all
 		if (bad==0) System.out.println("test 1 passed!");
 	}
+
+	/**
+	 * test tree 2
+	 * hardcoded point locations for 800x600
+	 */
 	private void test2(){
 		found = null;
 		tree = new PointQuadtree<Dot>(new Dot(400,500), 0,0,800,600); // start with A

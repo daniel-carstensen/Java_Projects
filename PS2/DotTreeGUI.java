@@ -10,6 +10,8 @@ import javax.swing.*;
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Spring 2015
  * @author CBK, Spring 2016, updated for dots
  * @author CBK, Fall 2016, generics, dots, extended testing
+ * @author Daniel Carstensen, Winter 2022, modified for pset2
+ * @author Max Lawrence, Winter 2022, modified for pset2
  */
 public class DotTreeGUI extends DrawingGUI {
 	private static final int width=800, height=600;		// size of the universe

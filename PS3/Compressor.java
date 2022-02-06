@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Compressor {
-    
     private String filePath;
-
 
     public Compressor(String filePath) {
         this.filePath = filePath;
@@ -28,13 +26,10 @@ public class Compressor {
     }
 
     private PriorityQueue fillQueue () throws IOException {
-        PriorityQueue<BinaryTree<CharFreq>> initialTreeQueue = new PriorityQueue<BinaryTree<CharFreq>>(new Comparator<BinaryTree<CharFreq>>() {
-            @Override
-            public int compare(BinaryTree<CharFreq> o1, BinaryTree<CharFreq> o2) {
-                if (o1.data.getFrequency() < o2.data.getFrequency()) return -1;
-                else if (o1.data.getFrequency() == o2.data.getFrequency()) return 0;
-                else return 1;
-            }
+        PriorityQueue<BinaryTree<CharFreq>> initialTreeQueue = new PriorityQueue<>((b1, b2) -> {
+            if (b1.data.getFrequency() < b2.data.getFrequency()) return -1;
+            else if (b1.data.getFrequency() == b2.data.getFrequency()) return 0;
+            else return 1;
         });
         HashMap<Character, Integer> frequencyMap = fillTable();
 
@@ -45,11 +40,29 @@ public class Compressor {
         return initialTreeQueue;
     }
 
+    private BinaryTree createTree () throws IOException {
+        PriorityQueue<BinaryTree<CharFreq>> initialTreeQueue = fillQueue();
+        return recursiveBuilding(initialTreeQueue);
+    }
+
+    private BinaryTree recursiveBuilding(PriorityQueue<BinaryTree<CharFreq>> initialTreeQueue) {
+        if (initialTreeQueue.size() >= 2) {
+            BinaryTree<CharFreq> t1 = initialTreeQueue.poll();
+            BinaryTree<CharFreq> t2 = initialTreeQueue.poll();
+            CharFreq root = new CharFreq('/', t1.data.getFrequency() + t2.data.getFrequency());
+            initialTreeQueue.add(new BinaryTree<CharFreq>(root, t1, t2));
+             return recursiveBuilding(initialTreeQueue);
+        }
+
+        return initialTreeQueue.poll();
+    }
+
 
     public static void main(String[] args) throws IOException {
-        Compressor usConstitution = new Compressor("PS3/USConstitution.txt");
+        Compressor usConstitution = new Compressor("PS3/test.txt");
         Object[] a = usConstitution.fillQueue().toArray();
         for (int j = 0; j < a.length; j++)
             System.out.println(a[j]);
+        System.out.println(usConstitution.createTree());
     }
 }

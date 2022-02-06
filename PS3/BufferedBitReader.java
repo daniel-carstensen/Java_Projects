@@ -7,7 +7,7 @@ import java.io.*;
  * 
  * @author Scot Drysdale
  * @author Chris Bailey-Kellogg, Spring 2016, now returns a boolean instead of an int;
- * 			throws an exception when EOF, with hasNext() method to test before reading (or could try/catch)
+ * 			throws an exception when EOF, with hasNext() method to test.txt before reading (or could try/catch)
  */
 public class BufferedBitReader {
 	// Note that we need to look ahead 3 bytes, because when the

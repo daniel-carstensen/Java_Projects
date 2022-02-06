@@ -18,9 +18,9 @@ public class CharFreq {
 
     @Override
     public String toString() {
-        return "CharacterAndFrequency{" +
-                "character=" + character +
-                ", frequency=" + frequency +
+        return "CharFreq: " +
+                "character = " + character +
+                ", frequency = " + frequency +
                 '}';
     }
 }

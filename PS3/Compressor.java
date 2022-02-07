@@ -105,7 +105,8 @@ public class Compressor {
     private void decompress() throws IOException {
         BufferedBitReader bitInput = new BufferedBitReader(compressedFilePath);
         BufferedWriter output = new BufferedWriter(new FileWriter(decompressedFilePath));
-        BinaryTree<CharFreq> tree = createTree();
+        BinaryTree<CharFreq> originaltree = createTree();
+        BinaryTree<CharFreq> tree = originaltree;
         while (bitInput.hasNext()) {
             boolean bit = bitInput.readBit();
             if (bit) {
@@ -116,7 +117,7 @@ public class Compressor {
             }
             if (tree.isLeaf()) {
                 output.write(tree.getData().getCharacter());
-                tree = createTree();
+                tree = originaltree;
             }
         }
         bitInput.close();
@@ -124,12 +125,12 @@ public class Compressor {
     }
 
     public static void main(String[] args) throws IOException {
-        Compressor usConstitution = new Compressor("PS3/WarAndPeace.txt");
+        Compressor usConstitution = new Compressor("PS3/USConstitution.txt");
 //        Object[] a = usConstitution.fillQueue().toArray();
 //        for (int j = 0; j < a.length; j++)
 //            System.out.println(a[j]);
 //        System.out.println(usConstitution.getCodeMap(usConstitution.createTree()));
-//        usConstitution.compress();
-//        usConstitution.decompress();
+        usConstitution.compress();
+        usConstitution.decompress();
     }
 }

@@ -2,6 +2,13 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * A Compressor that compresses and decompresses text files using Hoffman encoding
+ *
+ * @author Daniel Carstensen, Winter 2022
+ * @author Max Lawrence, Winter 2022
+ *
+ */
 public class Compressor {
     private String filePath;
     private String compressedFilePath;
@@ -221,6 +228,7 @@ public class Compressor {
         emptyFile.compress();
         emptyFile.decompress();
 
+
         Compressor singleLetterFile = new Compressor("PS3/singleLetterFile.txt", "PS3/compressedSingleLetterFile.txt", "" +
                 "PS3/decompressedSingleLetterFile.txt");
 
@@ -231,6 +239,16 @@ public class Compressor {
         singleLetterFile.compress();
         singleLetterFile.decompress();
 
+
+        Compressor repeatedCharacter = new Compressor("PS3/RepeatedCharacter.txt",
+                "PS3/compressedRepeatedCharacter.txt",
+                "PS3/decompressedRepeatedCharacter.txt");
+        System.out.println("RepeatedCharacter tree : " + repeatedCharacter.createTree()); // print Tree
+        System.out.println("RepeatedCharacter codeMap: " + repeatedCharacter.getCodeMap(repeatedCharacter.createTree())); // print codeMap
+        repeatedCharacter.compress();
+        repeatedCharacter.decompress();
+
+
         Compressor usConstitution = new Compressor("PS3/USConstitution.txt",
                 "PS3/compressedUSConstitution.txt",
                 "PS3/decompressedUSConstitution.txt");
@@ -239,12 +257,10 @@ public class Compressor {
         usConstitution.compress();
         usConstitution.decompress();
 
-        Compressor repeatedCharacter = new Compressor("PS3/RepeatedCharacter.txt",
-                "PS3/compressedRepeatedCharacter.txt",
-                "PS3/decompressedRepeatedCharacter.txt");
-        System.out.println("RepeatedCharacter tree : " + repeatedCharacter.createTree()); // print Tree
-        System.out.println("RepeatedCharacter codeMap: " + repeatedCharacter.getCodeMap(repeatedCharacter.createTree())); // print codeMap
-        repeatedCharacter.compress(); // compress
-        repeatedCharacter.decompress(); // decompress
+
+        Compressor warAndPeace = new Compressor("PS3/WarAndPeace.txt", "PS3/compressedWarAndPeace.txt",
+        "PS3/decompressedWarAndPeace.txt");
+        warAndPeace.compress();
+        warAndPeace.decompress();
     }
 }

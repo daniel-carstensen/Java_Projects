@@ -211,11 +211,30 @@ public class Compressor {
     }
 
     public static void main(String[] args) throws IOException {
+        Compressor emptyFile = new Compressor("PS3/emptyFile.txt", "PS3/compressedEmptyFile.txt", "" +
+                "PS3/decompressedEmptyFile.txt");
+
+        System.out.println("emptyFile Tree: " + emptyFile.createTree());
+
+        System.out.println("emptyFile HashMap: " + emptyFile.getCodeMap(emptyFile.createTree()));
+
+        emptyFile.compress();
+        emptyFile.decompress();
+
+        Compressor singleLetterFile = new Compressor("PS3/singleLetterFile.txt", "PS3/compressedSingleLetterFile.txt", "" +
+                "PS3/decompressedSingleLetterFile.txt");
+
+        System.out.println("singleLetterFile Tree: " + singleLetterFile.createTree());
+
+        System.out.println("emptyFile HashMap: " + singleLetterFile.getCodeMap(singleLetterFile.createTree()));
+
+        singleLetterFile.compress();
+        singleLetterFile.decompress();
+
         Compressor usConstitution = new Compressor("PS3/USConstitution.txt",
                 "PS3/compressedUSConstitution.txt",
                 "PS3/decompressedUSConstitution.txt");
         usConstitution.compress();
         usConstitution.decompress();
-
     }
 }

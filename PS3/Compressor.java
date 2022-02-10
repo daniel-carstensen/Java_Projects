@@ -234,7 +234,17 @@ public class Compressor {
         Compressor usConstitution = new Compressor("PS3/USConstitution.txt",
                 "PS3/compressedUSConstitution.txt",
                 "PS3/decompressedUSConstitution.txt");
+        System.out.println("USConstitution tree : " + usConstitution.createTree()); // print Tree
+        System.out.println("USConstitution codeMap: " + usConstitution.getCodeMap(usConstitution.createTree())); // print codeMap
         usConstitution.compress();
         usConstitution.decompress();
+
+        Compressor repeatedCharacter = new Compressor("PS3/RepeatedCharacter.txt",
+                "PS3/compressedRepeatedCharacter.txt",
+                "PS3/decompressedRepeatedCharacter.txt");
+        System.out.println("RepeatedCharacter tree : " + repeatedCharacter.createTree()); // print Tree
+        System.out.println("RepeatedCharacter codeMap: " + repeatedCharacter.getCodeMap(repeatedCharacter.createTree())); // print codeMap
+        repeatedCharacter.compress(); // compress
+        repeatedCharacter.decompress(); // decompress
     }
 }

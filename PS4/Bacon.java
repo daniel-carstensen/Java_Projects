@@ -14,7 +14,7 @@ public class Bacon {
     public Bacon(String actorsFile, String moviesFile, String actorsMoviesFile) {
         this.actorsFile = actorsFile;
         this.moviesFile = moviesFile;
-        this.actorsFile = actorsMoviesFile;
+        this.actorsMoviesFile = actorsMoviesFile;
     }
     private HashMap<String, String> readToHashMap(String filePath) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(filePath)); // creating a reader
@@ -73,7 +73,7 @@ public class Bacon {
 
 
     public static void main(String[] args) throws IOException {
-        Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movies-actorsTest");
+        Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
         test.readToHashMap(test.actorsFile);
         test.buildGraph();
     }

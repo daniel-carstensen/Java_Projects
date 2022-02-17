@@ -24,8 +24,6 @@ public class Bacon {
             String[] pieces = line.split("\\|");
             String key = pieces[0];
             String value = pieces[1];
-//            System.out.println(key);
-//            System.out.println(value);
             map.put(key, value);
         }
         input.close();
@@ -75,6 +73,6 @@ public class Bacon {
     public static void main(String[] args) throws IOException {
         Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
         test.readToHashMap(test.actorsFile);
-        test.buildGraph();
+        System.out.println(test.buildGraph());
     }
 }

@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,25 +29,30 @@ public class Bacon {
         return map;
     }
 
-    private AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException{
+    public AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException{
         AdjacencyMapGraph<String, Set<String>> gameGraph = new AdjacencyMapGraph<>();
         HashMap<String, String> moviesActors = readToHashMap(actorsMoviesFile);
         HashMap<String, String> actorIDs = readToHashMap(actorsFile);
         HashMap<String, String> movieIDs = readToHashMap(moviesFile);
         HashMap<String, Set<String>> actorsInMovie = new HashMap<>();
-        for (String key : moviesActors.keySet()) {
-            if (!gameGraph.hasVertex(moviesActors.get(key))) {
-                gameGraph.insertVertex(actorIDs.get(key));
+        for (String actorID : moviesActors.values()) {
+            if (!gameGraph.hasVertex(moviesActors.get(actorID))) {
+                gameGraph.insertVertex(actorIDs.get(actorID));
             }
-            Set<String> set;
-            if (!actorsInMovie.containsKey(key)) {
-                set = new HashSet<String>();
-            } else {
-                set = actorsInMovie.get(movieIDs.get(key));
-            }
-            set.add(actorIDs.get(moviesActors.get(key)));
-            actorsInMovie.put(movieIDs.get(key), set);
         }
+        for (String movieID : moviesActors.keySet()) {
+            Set<String> set;
+            if (!actorsInMovie.containsKey(movieID)) {
+                set = new HashSet<>();
+            } else {
+                set = actorsInMovie.get(movieIDs.get(movieID));
+            }
+            set.add(actorIDs.get(moviesActors.get(movieID)));
+            System.out.println(movieIDs.get(movieID));
+            System.out.println(set);
+            actorsInMovie.put(movieIDs.get(movieID), set);
+        }
+
         for (String actor : gameGraph.vertices()) {
             for (String movie : actorsInMovie.keySet()) {
                 if (actorsInMovie.get(movie).contains(actor)) {
@@ -72,7 +76,6 @@ public class Bacon {
 
     public static void main(String[] args) throws IOException {
         Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
-        test.readToHashMap(test.actorsFile);
         System.out.println(test.buildGraph());
     }
 }

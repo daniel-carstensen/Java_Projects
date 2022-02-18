@@ -30,45 +30,48 @@ public class Bacon {
 
     public AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException{
         AdjacencyMapGraph<String, Set<String>> gameGraph = new AdjacencyMapGraph<>();
-        HashMap<String, String> moviesActors = readToHashMap(actorsMoviesFile);
         HashMap<String, String> actorIDs = readToHashMap(actorsFile);
         HashMap<String, String> movieIDs = readToHashMap(moviesFile);
         HashMap<String, Set<String>> actorsInMovie = new HashMap<>();
-        for (String actorID : moviesActors.values()) {
-            if (!gameGraph.hasVertex(moviesActors.get(actorID))) {
+        for (String actorID : actorIDs.keySet()) {
+            if (!gameGraph.hasVertex(actorIDs.get(actorID))) {
                 gameGraph.insertVertex(actorIDs.get(actorID));
             }
         }
-        for (String movieID : moviesActors.keySet()) {
+        BufferedReader input = new BufferedReader(new FileReader(actorsMoviesFile)); // creating a reader
+        while (input.ready()) {
+            String[] pieces = input.readLine().split("\\|");
+            String movie = movieIDs.get(pieces[0]);
+            String actor = actorIDs.get(pieces[1]);
             Set<String> set;
-            if (!actorsInMovie.containsKey(movieID)) {
-                set = new HashSet<>();
+            if (actorsInMovie.containsKey(movie)) {
+                set = actorsInMovie.get(movie);
             } else {
-                set = actorsInMovie.get(movieIDs.get(movieID));
+                set = new HashSet<>();
             }
-            set.add(actorIDs.get(moviesActors.get(movieID)));
-            System.out.println(movieIDs.get(movieID));
-            System.out.println(set);
-            actorsInMovie.put(movieIDs.get(movieID), set);
+            set.add(actor);
+            actorsInMovie.put(movie, set);
         }
+        input.close();
 
         for (String actor : gameGraph.vertices()) {
             for (String movie : actorsInMovie.keySet()) {
                 if (actorsInMovie.get(movie).contains(actor)) {
                     for (String costar : actorsInMovie.get(movie)) {
-                        Set<String> edgeLabel;
-                        if (!gameGraph.hasEdge(actor, costar)) {
-                            edgeLabel = new HashSet<>();
-                        } else {
-                            edgeLabel = gameGraph.getLabel(actor, costar);
+                        if (!actor.equals(costar)) {
+                            Set<String> edgeLabel;
+                            if (!gameGraph.hasEdge(actor, costar)) {
+                                edgeLabel = new HashSet<>();
+                            } else {
+                                edgeLabel = gameGraph.getLabel(actor, costar);
+                            }
+                            edgeLabel.add(movie);
+                            gameGraph.insertUndirected(actor, costar, edgeLabel);
                         }
-                        edgeLabel.add(movie);
-                        gameGraph.insertUndirected(actor, costar, edgeLabel);
                     }
                 }
             }
         }
-        System.out.println(actorsInMovie);
         return gameGraph;
     }
 

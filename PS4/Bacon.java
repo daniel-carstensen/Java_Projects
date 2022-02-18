@@ -15,6 +15,7 @@ public class Bacon {
         this.moviesFile = moviesFile;
         this.actorsMoviesFile = actorsMoviesFile;
     }
+
     private HashMap<String, String> readToHashMap(String filePath) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(filePath)); // creating a reader
         HashMap<String, String> map = new HashMap<>();
@@ -28,7 +29,7 @@ public class Bacon {
         return map;
     }
 
-    public AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException{
+    public AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException {
         AdjacencyMapGraph<String, Set<String>> gameGraph = new AdjacencyMapGraph<>();
         HashMap<String, String> actorIDs = readToHashMap(actorsFile);
         HashMap<String, String> movieIDs = readToHashMap(moviesFile);
@@ -75,11 +76,13 @@ public class Bacon {
         return gameGraph;
     }
 
-
     public static void main(String[] args) throws IOException {
         Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
         Graph<String, Set<String>> testGraph = test.buildGraph();
         System.out.println(testGraph);
-//        GraphLib.bfs(testGraph, "Kevin Bacon", )
+        System.out.println(GraphLib.bfs(testGraph, "Kevin Bacon"));
+//        System.out.println(GraphLib.getPath(GraphLib.bfs(testGraph, "Kevin Bacon"), "Dartmouth (Earl thereof)"));
+        System.out.println(GraphLib.missingVertices(testGraph, GraphLib.bfs(testGraph, "Kevin Bacon")));
+        System.out.println(GraphLib.averageSeparation(GraphLib.bfs(testGraph, "Kevin Bacon"), "Kevin Bacon"));
     }
 }

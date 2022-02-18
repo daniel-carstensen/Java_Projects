@@ -18,9 +18,8 @@ public class Bacon {
     private HashMap<String, String> readToHashMap(String filePath) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(filePath)); // creating a reader
         HashMap<String, String> map = new HashMap<>();
-        String line;
-        while ((line = input.readLine()) != null) {
-            String[] pieces = line.split("\\|");
+        while (input.ready()) {
+            String[] pieces = input.readLine().split("\\|");
             String key = pieces[0];
             String value = pieces[1];
             map.put(key, value);
@@ -76,6 +75,8 @@ public class Bacon {
 
     public static void main(String[] args) throws IOException {
         Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
-        System.out.println(test.buildGraph());
+        Graph<String, Set<String>> testGraph = test.buildGraph();
+        System.out.println(testGraph);
+//        GraphLib.bfs(testGraph, "Kevin Bacon", )
     }
 }

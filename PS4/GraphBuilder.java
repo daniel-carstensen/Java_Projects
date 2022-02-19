@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Bacon {
+public class GraphBuilder {
     public String actorsFile;
     public String moviesFile;
     public String actorsMoviesFile;
 
-    public Bacon(String actorsFile, String moviesFile, String actorsMoviesFile) {
+    public GraphBuilder(String actorsFile, String moviesFile, String actorsMoviesFile) {
         this.actorsFile = actorsFile;
         this.moviesFile = moviesFile;
         this.actorsMoviesFile = actorsMoviesFile;
@@ -74,15 +74,5 @@ public class Bacon {
             }
         }
         return gameGraph;
-    }
-
-    public static void main(String[] args) throws IOException {
-        Bacon test = new Bacon("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
-        Graph<String, Set<String>> testGraph = test.buildGraph();
-        System.out.println(testGraph);
-        System.out.println(GraphLib.bfs(testGraph, "Kevin Bacon"));
-//        System.out.println(GraphLib.getPath(GraphLib.bfs(testGraph, "Kevin Bacon"), "Dartmouth (Earl thereof)"));
-        System.out.println(GraphLib.missingVertices(testGraph, GraphLib.bfs(testGraph, "Kevin Bacon")));
-        System.out.println(GraphLib.averageSeparation(GraphLib.bfs(testGraph, "Kevin Bacon"), "Kevin Bacon"));
     }
 }

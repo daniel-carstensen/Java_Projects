@@ -120,6 +120,20 @@ public class BaconGame {
         }
     }
 
+    public void bestByDegree(int num) {
+        List<String> actorsByDegree = GraphLib.verticesByInDegree(this.graph);
+        if (num < 0) {
+            int size = actorsByDegree.size() - 1;
+            for (int i = 0; i <= Math.abs(num); i++) {
+                System.out.println(actorsByDegree.get(size - i) + " with " + graph.inDegree(actorsByDegree.get(size - i)) + " direct connections.");
+            }
+        } else {
+            for (int i = 0; i <= num; i++) {
+                System.out.println(actorsByDegree.get(i) + " with " + graph.inDegree(actorsByDegree.get(i)) + " direct connections.");
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BaconGame test = new BaconGame("Kevin Bacon", "PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
     }

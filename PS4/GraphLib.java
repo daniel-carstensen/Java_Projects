@@ -107,4 +107,24 @@ public class GraphLib {
 		}
 		return total;
 	}
+
+	/**
+	 * Orders vertices in decreasing order by their in-degree
+	 * @param g		graph
+	 * @return		list of vertices sorted by in-degree, decreasing (i.e., largest at index 0)
+	 */
+	public static <V,E> List<V> verticesByInDegree(Graph<V,E> g) {
+		List<V> allVertices = new ArrayList<>();
+		Iterable<V> vertices = g.vertices();
+		for (V vertex : vertices) {
+			allVertices.add(vertex);
+		}
+
+		allVertices.sort((v1, v2) -> (
+						g.inDegree(v2) - g.inDegree(v1)
+				)
+		);
+
+		return allVertices;
+	}
 }

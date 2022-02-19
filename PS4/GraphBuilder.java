@@ -5,17 +5,37 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * GraphBuilder to play the Bacon game gy creating a graph that holds a network of actors and movies using text files
+ *
+ * @author Max Lawrence, Winter 2022, Dartmouth CS10, pset 4
+ * @author Daniel Carstensen, Winter 2022, Dartmouth CS10, pset 4
+ */
 public class GraphBuilder {
-    public String actorsFile;
-    public String moviesFile;
-    public String actorsMoviesFile;
+    public String actorsFile; // variable to hold path to actors file
+    public String moviesFile; // variable to hold path to movies file
+    public String actorsMoviesFile; // variable to hold path to actors-movies file
 
+    /**
+     * instantiate path variables
+     *
+     * @param actorsFile input path to actors file
+     * @param moviesFile input path to movies file
+     * @param actorsMoviesFile input path to actors-movies file
+     */
     public GraphBuilder(String actorsFile, String moviesFile, String actorsMoviesFile) {
-        this.actorsFile = actorsFile;
-        this.moviesFile = moviesFile;
-        this.actorsMoviesFile = actorsMoviesFile;
+        this.actorsFile = actorsFile; // initialize the path
+        this.moviesFile = moviesFile; // initialize the path
+        this.actorsMoviesFile = actorsMoviesFile; // initialize the path
     }
 
+    /**
+     * 
+     *
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
     private HashMap<String, String> readToHashMap(String filePath) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(filePath)); // creating a reader
         HashMap<String, String> map = new HashMap<>();

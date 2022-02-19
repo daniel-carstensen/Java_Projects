@@ -1,12 +1,10 @@
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class BaconGame {
     private String center;
     private AdjacencyMapGraph<String, Set<String>> graph;
+    private Graph<String, Set<String>> tree;
 
     public BaconGame(String center, String actorsFile, String moviesFile, String actorsMoviesFile) throws IOException {
         GraphBuilder graphBuilder =  new GraphBuilder(actorsFile, moviesFile, actorsMoviesFile);
@@ -27,7 +25,9 @@ public class BaconGame {
     }
     public void newCenter(String center) {
         this.center = center;
-
+        this.tree = GraphLib.bfs(graph, this.center);
+        System.out.println(this.center + " is now the center of the acting universe, connected to " + tree.numVertices()
+                + "/" + graph.numVertices() + " actors with average separation " + GraphLib.averageSeparation(tree, this.center));
     }
     public void readInput() {
         Scanner input = new Scanner(System.in);
@@ -35,18 +35,26 @@ public class BaconGame {
         String[] pieces = userInput.split(" ");
         String command = pieces[0];
         String parameter = pieces[1];
-        if (command.compareTo("c") == 0) {
-            bestCenters(Integer.getInteger(parameter));
+        if (command.equals("i")) {
+            printMissingVertices();
         }
     }
-    public void bestCenters(int num) {
-        PriorityQueue<HashMap<String, Double>> centerQueue = new PriorityQueue<>(); // add a comparator
-        for (String vertex : graph.vertices()) {
-            Graph<String, Set<String>> tree = GraphLib.bfs(graph, center);
-            double averageSeparation = GraphLib.averageSeparation(tree, center);
-            HashMap<String, Double> map = new HashMap<>();
-            map.put(vertex, averageSeparation);
 
+    public void printMissingVertices() {
+        Set<String> missingVertices = GraphLib.missingVertices(graph, tree);
+        System.out.println("Disconnected Vertices:");
+        for (String missingActor : missingVertices) {
+            System.out.println(missingActor);
+        }
+    }
+    public void printPath(String actor) {
+        List<String> path = GraphLib.getPath(tree, actor);
+        for (int indx = 0; indx < path.size() - 1; indx++) {
+            String costar = path.get(indx);
+            Set<String> label = graph.getLabel(costar, path.get(indx + 1));
+            Object[] movies = label.toArray();
+            Object movie = movies[0];
+            System.out.println(costar + " appeared in [" + movie + "] with " + path.get(indx + 1));
         }
     }
 

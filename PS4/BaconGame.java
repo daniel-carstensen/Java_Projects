@@ -32,6 +32,7 @@ public class BaconGame {
         GraphBuilder graphBuilder = new GraphBuilder(actorsFile, moviesFile, actorsMoviesFile);
         this.graph = graphBuilder.buildGraph();
         this.center = center;
+        startNewGame("Kevin Bacon");
     }
 
     public void startNewGame(String center) {
@@ -40,10 +41,10 @@ public class BaconGame {
         System.out.println("d <low> <high>: list actors sorted by degree, with degree between low and high");
         System.out.println("i: list actors with infinite separation from the current center");
         System.out.println("p <name>: find path from <name> to current center of the universe");
-        System.out.println("s <low> <high>: list actors sorted by non-infinite separation from the current center, with separation between low and high");
         System.out.println("u <name>: make <name> the center of the universe");
         System.out.println("q: quit game");
         newCenter("Kevin Bacon");
+        readInput();
     }
 
     public void newCenter(String center) {
@@ -62,6 +63,19 @@ public class BaconGame {
         if (command.equals("i")) {
             printMissingVertices();
         }
+        if (command.equals("c")) {
+            bestCenters(Integer.getInteger(parameter));
+        }
+        if (command.equals("p")) {
+            printPath(parameter);
+        }
+        if (command.equals("u")) {
+            newCenter(parameter);
+        }
+        else {
+            System.out.println("Invalid input, try again");
+        }
+        readInput();
     }
 
     public void printMissingVertices() {
@@ -108,6 +122,5 @@ public class BaconGame {
 
     public static void main(String[] args) throws IOException {
         BaconGame test = new BaconGame("Kevin Bacon", "PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
-        test.bestCenters(-10);
     }
 }

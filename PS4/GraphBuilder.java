@@ -30,69 +30,80 @@ public class GraphBuilder {
     }
 
     /**
-     * 
-     *
+     * Takes in a .txt filePath and creates a Map from the text in the file
      * @param filePath
-     * @return
+     * @return a map constructed from the text in the inputted filePath
      * @throws IOException
      */
     private HashMap<String, String> readToHashMap(String filePath) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(filePath)); // creating a reader
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>(); // map to hold the key value pairs
         while (input.ready()) {
+            // each line of the file has key-value pairs seperated by | symbol
+            // get the key and value and add them to the map
             String[] pieces = input.readLine().split("\\|");
             String key = pieces[0];
             String value = pieces[1];
             map.put(key, value);
         }
-        input.close();
-        return map;
+        input.close(); // close the reader
+        return map; // return the completed map
     }
 
+    /**
+     * Build a graph so that the vertices are actor names and edges between actors are sets of the movies
+     * they starred in together
+     * @return the graph
+     * @throws IOException
+     */
     public AdjacencyMapGraph<String, Set<String>> buildGraph() throws IOException {
         AdjacencyMapGraph<String, Set<String>> gameGraph = new AdjacencyMapGraph<>();
+        // create maps for actor IDs and movie IDs to get names from IDs
         HashMap<String, String> actorIDs = readToHashMap(actorsFile);
         HashMap<String, String> movieIDs = readToHashMap(moviesFile);
-        HashMap<String, Set<String>> actorsInMovie = new HashMap<>();
-        for (String actorID : actorIDs.keySet()) {
-            if (!gameGraph.hasVertex(actorIDs.get(actorID))) {
-                gameGraph.insertVertex(actorIDs.get(actorID));
-            }
+        for (String actorID : actorIDs.keySet()) { // add a vertex for each actor
+            gameGraph.insertVertex(actorIDs.get(actorID));
         }
+        // new HashMap to hold movies and sets of the actors in them
+        HashMap<String, Set<String>> actorsInMovie = new HashMap<>();
         BufferedReader input = new BufferedReader(new FileReader(actorsMoviesFile)); // creating a reader
         while (input.ready()) {
             String[] pieces = input.readLine().split("\\|");
             String movie = movieIDs.get(pieces[0]);
             String actor = actorIDs.get(pieces[1]);
             Set<String> set;
+            // if the movie has already been added to the map, get its set of actors and add the new actor
             if (actorsInMovie.containsKey(movie)) {
                 set = actorsInMovie.get(movie);
             } else {
+                // otherwise, create a new set to hold the actor and add the movie to the map
                 set = new HashSet<>();
             }
             set.add(actor);
             actorsInMovie.put(movie, set);
         }
-        input.close();
+        input.close(); // close the reader
 
-        for (String actor : gameGraph.vertices()) {
-            for (String movie : actorsInMovie.keySet()) {
-                if (actorsInMovie.get(movie).contains(actor)) {
-                    for (String costar : actorsInMovie.get(movie)) {
-                        if (!actor.equals(costar)) {
+        for (String actor : gameGraph.vertices()) { // for each vertex
+            for (String movie : actorsInMovie.keySet()) { // for each movie
+                if (actorsInMovie.get(movie).contains(actor)) { // if the actor is in the movie
+                    for (String costar : actorsInMovie.get(movie)) { // loop through each actor in that movie
+                        if (!actor.equals(costar)) { // if the actor is not the current costar being assessed
                             Set<String> edgeLabel;
+                            // if there is not already an edge between the actor
                             if (!gameGraph.hasEdge(actor, costar)) {
-                                edgeLabel = new HashSet<>();
-                            } else {
-                                edgeLabel = gameGraph.getLabel(actor, costar);
+                                edgeLabel = new HashSet<>(); // create a new set to hold the label
+                            } else { // if there is already an edge
+                                edgeLabel = gameGraph.getLabel(actor, costar); // get the Set label
                             }
-                            edgeLabel.add(movie);
+                            edgeLabel.add(movie); // add the shared movie to the label
+                            // add a new edge between the actor and costar, with the set edgeLabel as the label
                             gameGraph.insertUndirected(actor, costar, edgeLabel);
                         }
                     }
                 }
             }
         }
-        return gameGraph;
+        return gameGraph; // return the final graph
     }
 }

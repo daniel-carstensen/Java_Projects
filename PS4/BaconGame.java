@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -38,7 +40,12 @@ public class BaconGame {
         }
     }
     public void bestCenters(int num) {
+        PriorityQueue<HashMap<String, Double>> centerQueue = new PriorityQueue<>(); // add a comparator
         for (String vertex : graph.vertices()) {
+            Graph<String, Set<String>> tree = GraphLib.bfs(graph, center);
+            double averageSeparation = GraphLib.averageSeparation(tree, center);
+            HashMap<String, Double> map = new HashMap<>();
+            map.put(vertex, averageSeparation);
 
         }
     }

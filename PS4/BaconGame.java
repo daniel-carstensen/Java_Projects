@@ -44,7 +44,7 @@ public class BaconGame {
         System.out.println("u <name>: make <name> the center of the universe");
         System.out.println("q: quit game");
         newCenter("Kevin Bacon");
-        readInput();
+        readCommand();
     }
 
     public void newCenter(String center) {
@@ -54,28 +54,52 @@ public class BaconGame {
                 + "/" + graph.numVertices() + " actors with average separation " + GraphLib.averageSeparation(tree, this.center));
     }
 
-    public void readInput() {
+    public void readCommand() {
+        System.out.println("Input game command: ");
         Scanner input = new Scanner(System.in);
-        String userInput = input.next();
-        String[] pieces = userInput.split(" ");
-        String command = pieces[0];
-        String parameter = pieces[1];
+        String command = input.next();
+        readParameter(command);
         if (command.equals("i")) {
             printMissingVertices();
         }
-        if (command.equals("c")) {
-            bestCenters(Integer.getInteger(parameter));
+        else if (command.equals("q")) {
+            System.out.println("Game Over.");
         }
-        if (command.equals("p")) {
-            printPath(parameter);
-        }
-        if (command.equals("u")) {
-            newCenter(parameter);
+        else if (command.equals("c") | command.equals("d") | command.equals("p") |command.equals("u")) {
+            readParameter(command);
         }
         else {
             System.out.println("Invalid input, try again");
+            readCommand();
         }
-        readInput();
+    }
+
+    public void readParameter(String command) {
+        if (command.equals("c")) {
+            System.out.println("List this many actors: ");
+            Scanner input = new Scanner(System.in);
+            int parameter = input.nextInt();
+            bestCenters(parameter);
+        }
+        else if (command.equals("p")) {
+            System.out.println("From " + center + " to: ");
+            Scanner input = new Scanner(System.in);
+            String parameter = input.next();
+            printPath(parameter);
+        }
+        else if (command.equals("u")) {
+            System.out.println("New center of the universe: ");
+            Scanner input = new Scanner(System.in);
+            String parameter = input.next();
+            newCenter(parameter);
+        }
+        else if (command.equals("d")) {
+            System.out.println("List this many actors: ");
+            Scanner input = new Scanner(System.in);
+            int parameter = input.nextInt();
+            bestByDegree(parameter);
+        }
+        readCommand();
     }
 
     public void printMissingVertices() {

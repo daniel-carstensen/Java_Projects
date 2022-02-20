@@ -49,6 +49,7 @@ public class GraphLib {
 	 * @return list that specifies the path from v to the root
 	 */
 	public static <V, E> List<V> getPath(Graph<V, E> tree, V v) {
+		if (!tree.hasVertex(v)) return null;
 		List<V> path = new ArrayList<>(); // initialize path list
 		path.add(v); // add input vertex to list
 		Iterator<V> out = tree.outNeighbors(v).iterator(); // initialize iterator to iterate through outNeighbors of input vertex

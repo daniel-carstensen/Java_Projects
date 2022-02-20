@@ -1,5 +1,6 @@
 import net.datastructures.Vertex;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
@@ -38,12 +39,12 @@ public class BaconGame {
     public void startNewGame(String center) {
         System.out.println("Commands:");
         System.out.println("c <#>: list top (positive number) or bottom (negative) <#> centers of the universe, sorted by average separation");
-        System.out.println("d <low> <high>: list actors sorted by degree, with degree between low and high");
+        System.out.println("d <#>: list top (positive number) or bottom (negative) <#> actors sorted by degree");
         System.out.println("i: list actors with infinite separation from the current center");
         System.out.println("p <name>: find path from <name> to current center of the universe");
         System.out.println("u <name>: make <name> the center of the universe");
         System.out.println("q: quit game");
-        newCenter("Kevin Bacon");
+        newCenter(center);
         readCommand();
     }
 
@@ -57,10 +58,11 @@ public class BaconGame {
     public void readCommand() {
         System.out.println("Input game command: ");
         Scanner input = new Scanner(System.in);
-        String command = input.next();
-        readParameter(command);
+        String command = input.nextLine();
         if (command.equals("i")) {
+            System.out.println("You entered i");
             printMissingVertices();
+            readCommand();
         }
         else if (command.equals("q")) {
             System.out.println("Game Over.");
@@ -84,13 +86,13 @@ public class BaconGame {
         else if (command.equals("p")) {
             System.out.println("From " + center + " to: ");
             Scanner input = new Scanner(System.in);
-            String parameter = input.next();
+            String parameter = input.nextLine();
             printPath(parameter);
         }
         else if (command.equals("u")) {
             System.out.println("New center of the universe: ");
             Scanner input = new Scanner(System.in);
-            String parameter = input.next();
+            String parameter = input.nextLine();
             newCenter(parameter);
         }
         else if (command.equals("d")) {
@@ -112,12 +114,15 @@ public class BaconGame {
 
     public void printPath(String actor) {
         List<String> path = GraphLib.getPath(tree, actor);
-        for (int indx = 0; indx < path.size() - 1; indx++) {
-            String costar = path.get(indx);
-            Set<String> label = graph.getLabel(costar, path.get(indx + 1));
-            Object[] movies = label.toArray();
-            Object movie = movies[0];
-            System.out.println(costar + " appeared in [" + movie + "] with " + path.get(indx + 1));
+        if (path == null) System.out.println(actor + " is not connected to " + center );
+        else {
+            for (int indx = 0; indx < path.size() - 1; indx++) {
+                String costar = path.get(indx);
+                Set<String> label = graph.getLabel(costar, path.get(indx + 1));
+                Object[] movies = label.toArray();
+                Object movie = movies[0];
+                System.out.println(costar + " appeared in [" + movie + "] with " + path.get(indx + 1));
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.*;
  * 
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Fall 2016
  * @author Daniel Carstensen, Winter 2022, completed for SA7, augmented for PS4
- * 
+ * @author Max Lawrence, Winter 2022, augmented for PS4
  */
 public class GraphLib {
 	/**

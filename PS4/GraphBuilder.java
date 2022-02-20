@@ -106,4 +106,23 @@ public class GraphBuilder {
         }
         return gameGraph; // return the final graph
     }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("Testing on small, test files:");
+        GraphBuilder test0 = new GraphBuilder("PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
+        AdjacencyMapGraph<String, Set<String>> test0graph = test0.buildGraph();
+        System.out.println("# of Vertices: " + test0graph.numVertices());
+        System.out.println("# of Edges: " + test0graph.numEdges());
+        System.out.println(test0graph);
+        System.out.println();
+
+        System.out.println("Now testing on real files:");
+        GraphBuilder test1 = new GraphBuilder("PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
+        AdjacencyMapGraph<String, Set<String>> test1graph = test1.buildGraph();
+        System.out.println("# of Vertices: " + test1graph.numVertices());
+        System.out.println("# of Edges: " + test1graph.numEdges());
+        System.out.println("For test, printing all edges from Kevin Bacon: ");
+        System.out.println("# of Actors connected to Kevin Bacon: " + test1graph.inDegree("Kevin Bacon"));
+        System.out.println(test1graph.inNeighbors("Kevin Bacon"));
+    }
 }

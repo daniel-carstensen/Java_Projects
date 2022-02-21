@@ -85,6 +85,7 @@ public class BaconGame {
      * Prompts the user to input a command and then reads and responds to the user input
      */
     public void readCommand() {
+        System.out.println();
         System.out.println(center + " Game >"); // state the current center
         System.out.println("Input game command: "); // prompt the user command
         Scanner input = new Scanner(System.in); // start scanning for input
@@ -172,10 +173,8 @@ public class BaconGame {
                 String costar = path.get(indx); // get the actor at the index
                 // get one movie shared by the actor and the next actor in the list
                 Set<String> label = graph.getLabel(costar, path.get(indx + 1));
-                Object[] movies = label.toArray();
-                Object movie = movies[0];
                 // print the path information (actor x appeared with next actor y in z movie)
-                System.out.println(costar + " appeared in [" + movie + "] with " + path.get(indx + 1));
+                System.out.println(costar + " appeared in " + label + " with " + path.get(indx + 1));
             }
         }
     }
@@ -215,17 +214,18 @@ public class BaconGame {
         List<String> actorsByDegree = GraphLib.verticesByInDegree(this.graph);
         if (num < 0) { // if looking for the lowest degree actors
             int size = actorsByDegree.size() - 1;
-            for (int i = 0; i <= Math.abs(num); i++) { // take from the back of the list and print num of actors
+            for (int i = 0; i <= Math.abs(num) - 1; i++) { // take from the back of the list and print num of actors
                 System.out.println(actorsByDegree.get(size - i) + " with " + graph.inDegree(actorsByDegree.get(size - i)) + " direct connections.");
             }
         } else { // else if looking for highest degree actors
-            for (int i = 0; i <= num; i++) { // take and print from the front of the list
+            for (int i = 0; i <= num - 1; i++) { // take and print from the front of the list
                 System.out.println(actorsByDegree.get(i) + " with " + graph.inDegree(actorsByDegree.get(i)) + " direct connections.");
             }
         }
     }
 
     public static void main(String[] args) throws IOException {
-        BaconGame test = new BaconGame("Kevin Bacon", "PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
+        BaconGame test0 = new BaconGame("Kevin Bacon", "PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
+        // BaconGame test1 = new BaconGame("Kevin Bacon", "PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
     }
 }

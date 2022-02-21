@@ -116,11 +116,19 @@ public class GraphBuilder {
         System.out.println(test0graph);
         System.out.println();
 
+        System.out.println("For test, printing all edges from Kevin Bacon: ");
+        System.out.println("# of Actors connected to Kevin Bacon: " + test0graph.inDegree("Kevin Bacon"));
+        System.out.println(test0graph.inNeighbors("Kevin Bacon"));
+        System.out.println();
+
+
         System.out.println("Now testing on real files:");
         GraphBuilder test1 = new GraphBuilder("PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
         AdjacencyMapGraph<String, Set<String>> test1graph = test1.buildGraph();
         System.out.println("# of Vertices: " + test1graph.numVertices());
         System.out.println("# of Edges: " + test1graph.numEdges());
+        System.out.println();
+
         System.out.println("For test, printing all edges from Kevin Bacon: ");
         System.out.println("# of Actors connected to Kevin Bacon: " + test1graph.inDegree("Kevin Bacon"));
         System.out.println(test1graph.inNeighbors("Kevin Bacon"));

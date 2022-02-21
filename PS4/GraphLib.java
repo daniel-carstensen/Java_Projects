@@ -90,7 +90,7 @@ public class GraphLib {
 	public static <V, E> double averageSeparation(Graph<V, E> tree, V root) {
 		int total; // create a total integer variable
 		total = totalDistance(tree, root, 0); // set total equal to return value of recursive function
-		return (double) total / (double) tree.numVertices(); // return total divided by total number of vertices in graph
+		return (double) total / (double) (tree.numVertices() - 1); // return total divided by total number of vertices in graph minus the root
 	}
 
 	/**

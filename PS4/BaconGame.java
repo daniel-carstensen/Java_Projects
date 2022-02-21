@@ -91,7 +91,6 @@ public class BaconGame {
         Scanner input = new Scanner(System.in); // start scanning for input
         String command = input.nextLine(); // take in the next inputted line as the command
         if (command.equals("i")) {
-            System.out.println("You entered i");
             printMissingVertices(); // print missing vertices as the i command is meant to do
             readCommand(); // wait for a new command
         }

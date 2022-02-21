@@ -111,18 +111,19 @@ public class GraphLib {
 
 	/**
 	 * Orders vertices in decreasing order by their in-degree
+	 *
 	 * @param g		graph
 	 * @return		list of vertices sorted by in-degree, decreasing (i.e., largest at index 0)
 	 */
 	public static <V,E> List<V> verticesByInDegree(Graph<V,E> g) {
-		List<V> allVertices = new ArrayList<>();
-		Iterable<V> vertices = g.vertices();
-		for (V vertex : vertices) {
-			allVertices.add(vertex);
+		List<V> allVertices = new ArrayList<>(); // initialize a list for the sorted vertices
+		Iterable<V> vertices = g.vertices(); // initialize an iterable of the vertices in g
+		for (V vertex : vertices) { // for all vertices in the iterable
+			allVertices.add(vertex); // all vertex to list
 		}
 
-		allVertices.sort((v1, v2) -> (
-						g.inDegree(v2) - g.inDegree(v1)
+		allVertices.sort((v1, v2) -> ( // sort function comparator
+						g.inDegree(v2) - g.inDegree(v1) // compare in degree of two vertices
 				)
 		);
 

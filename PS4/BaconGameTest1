@@ -50,6 +50,13 @@ Elizabeth McGovern appeared in [She's Having a Baby (1988)] with Kevin Bacon
 
 Kevin Bacon Game >
 Input game command:
+p
+From Kevin Bacon to:
+Til Schweiger
+Til Schweiger is not connected to Kevin Bacon
+
+Kevin Bacon Game >
+Input game command:
 c
 List this many actors:
 5
@@ -91,6 +98,13 @@ Polli Magaro with 0 direct connections.
 Gigi Leung with 0 direct connections.
 Michel Simon with 0 direct connections.
 Joshua Suherman with 0 direct connections.
+
+Kevin Bacon Game >
+Input game command:
+u
+New center of the universe:
+Bob
+This actor does not exists within the game
 
 Kevin Bacon Game >
 Input game command:

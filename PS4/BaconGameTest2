@@ -1,0 +1,6 @@
+/Library/Java/JavaVirtualMachines/jdk-17.0.1.jdk/Contents/Home/bin/java -javaagent:/Applications/IntelliJ IDEA Edu.app/Contents/lib/idea_rt.jar=56998:/Applications/IntelliJ IDEA Edu.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/danielcarstensen/IdeaProjects/libs/javacv.jar:/Users/danielcarstensen/IdeaProjects/libs/json-simple-1.1.1.jar:/Users/danielcarstensen/IdeaProjects/libs/net-datastructures-4-0.jar:/Users/danielcarstensen/IdeaProjects/libs/openblas-macosx-x86_64.jar:/Users/danielcarstensen/IdeaProjects/libs/opencv-macosx-x86_64.jar:/Users/danielcarstensen/IdeaProjects/libs/opencv.jar:/Users/danielcarstensen/CS10/out/production/CS10 BaconGame
+The actors file is empty
+The movies file is empty
+The actors-movies file is empty
+
+Process finished with exit code 0

@@ -1,6 +1,7 @@
 import net.datastructures.Vertex;
 
 import javax.sound.midi.Soundbank;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
@@ -46,11 +47,17 @@ public class BaconGame {
      * @throws IOException
      */
     public BaconGame(String center, String actorsFile, String moviesFile, String actorsMoviesFile) throws IOException {
+        // accommodate for empty files
+        if (new File(actorsFile).length() == 0) System.out.println("The actors file is empty");
+        if (new File(moviesFile).length() == 0) System.out.println("The movies file is empty");
+        if (new File(actorsMoviesFile).length() == 0) System.out.println("The actors-movies file is empty");
         // create a graph when the game is constructed
-        GraphBuilder graphBuilder = new GraphBuilder(actorsFile, moviesFile, actorsMoviesFile);
-        this.graph = graphBuilder.buildGraph();
-        this.center = center;
-        startNewGame(); // starts the game
+        else {
+            GraphBuilder graphBuilder = new GraphBuilder(actorsFile, moviesFile, actorsMoviesFile);
+            this.graph = graphBuilder.buildGraph();
+            this.center = center;
+            startNewGame(); // starts the game
+        }
     }
 
     /**
@@ -74,11 +81,14 @@ public class BaconGame {
      * @param center name of the new actor to serve as the center of the game universe
      */
     public void newCenter(String center) {
-        this.center = center; // override the current center
-        this.tree = GraphLib.bfs(graph, this.center); // override the current tree to one with the new center at its root
-        // print initial information on the new center
-        System.out.println(this.center + " is now the center of the acting universe, connected to " + tree.numVertices()
-                + "/" + graph.numVertices() + " actors with average separation " + GraphLib.averageSeparation(tree, this.center));
+        if (!graph.hasVertex(center)) System.out.println("This actor does not exists within the game"); // if actor does not exist
+        else {
+            this.center = center; // override the current center
+            this.tree = GraphLib.bfs(graph, this.center); // override the current tree to one with the new center at its root
+            // print initial information on the new center
+            System.out.println(this.center + " is now the center of the acting universe, connected to " + tree.numVertices()
+                    + "/" + graph.numVertices() + " actors with average separation " + GraphLib.averageSeparation(tree, this.center));
+        }
     }
 
     /**
@@ -199,6 +209,7 @@ public class BaconGame {
         }
 
         for (int i = 1; i <= Math.abs(num); ++i) { // remove from the queue and print based on the # of actors requested
+            if (centerQueue.isEmpty()) break; // if num larger than number of actors, stop when printed out all actors
             BaconGame.Actor actor = centerQueue.poll();
             System.out.println(actor.getActor() + " with average separation " + actor.getValue());
         }
@@ -214,10 +225,12 @@ public class BaconGame {
         if (num < 0) { // if looking for the lowest degree actors
             int size = actorsByDegree.size() - 1;
             for (int i = 0; i <= Math.abs(num) - 1; i++) { // take from the back of the list and print num of actors
+                if (i == actorsByDegree.size()) break; // if num larger than number of actors, stop when printed out all actors
                 System.out.println(actorsByDegree.get(size - i) + " with " + graph.inDegree(actorsByDegree.get(size - i)) + " direct connections.");
             }
         } else { // else if looking for highest degree actors
             for (int i = 0; i <= num - 1; i++) { // take and print from the front of the list
+                if (i == actorsByDegree.size()) break; // if num larger than number of actors, stop when printed out all actors
                 System.out.println(actorsByDegree.get(i) + " with " + graph.inDegree(actorsByDegree.get(i)) + " direct connections.");
             }
         }
@@ -226,5 +239,6 @@ public class BaconGame {
     public static void main(String[] args) throws IOException {
         BaconGame test0 = new BaconGame("Kevin Bacon", "PS4/actors.txt", "PS4/movies.txt", "PS4/movie-actors.txt");
         // BaconGame test1 = new BaconGame("Kevin Bacon", "PS4/actorsTest.txt", "PS4/moviesTest.txt", "PS4/movie-actorsTest.txt");
+        // BaconGame test2 = new BaconGame("Kevin Bacon", "PS4/emptyFile.txt", "PS4/emptyFile.txt", "PS4/emptyFile.txt");
     }
 }

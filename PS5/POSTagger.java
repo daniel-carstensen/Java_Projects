@@ -135,7 +135,7 @@ public class POSTagger {
                     if (!nextStates.contains(transition)) nextStates.add(transition);
                     double nextScore = currentScores.get(currentState) + transitionFrequency.get(transition);
                     if (!observations.get(transition).containsKey(currentWord)) {
-                        nextScore += -10;
+                        nextScore += -100;
                     }
                     else {
                         nextScore += observations.get(transition).get(currentWord);
@@ -161,9 +161,9 @@ public class POSTagger {
             bestTransition = currentBackTrack.get(bestTransition);
             i --;
         }
-        for (String s : path) {
-            System.out.println(s);
-        }
+//        for (String s : path) {
+//            System.out.println(s);
+//        }
         return path;
     }
 

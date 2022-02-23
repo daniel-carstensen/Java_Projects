@@ -15,7 +15,7 @@ public class POSTagger {
 
     public POSTagger (String trainSentenceFile, String trainTagFile, String testSentenceFile, String testTagFile) {
         if (new File(trainSentenceFile).length() == 0) System.out.println("The given file is empty: " + trainSentenceFile);
-        if (new File(trainTagFile).length() == 0) System.out.println("The given file is empty " + trainTagFile);
+        if (new File(trainTagFile).length() == 0) System.out.println("The given file is empty: " + trainTagFile);
         if (new File(testSentenceFile).length() == 0) System.out.println("The given file is empty: " + testSentenceFile);
         if (new File(testTagFile).length() == 0) System.out.println("The given file is empty: " + testTagFile);
 
@@ -185,14 +185,17 @@ public class POSTagger {
                 }
             }
         }
+
+        int totalTags = correctTags + incorrectTags;
+        System.out.println("Total tags: " + totalTags);
         System.out.println("Correct tags: " + correctTags);
         System.out.println("Incorrect tags: " + incorrectTags);
     }
 
     public static void main(String[] args) throws IOException {
 //        POSTagger test = new POSTagger("PS5/example-sentences.txt", "PS5/example-tags.txt", "PS5/example-sentences.txt", "PS5/example-tags.txt");
-        //POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
-        POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
+        POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
+        //POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
         test.trainModel();
         System.out.println(test.observations);
         System.out.println(test.transitions);

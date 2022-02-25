@@ -112,6 +112,8 @@ public class POSTagger {
                 }
             }
         }
+        sentenceInput.close();
+        tagInput.close();
 
         // convert the raw occurrence values of each word into a log based probability score
         for (String tag : observations.keySet()) { // loop through all states in the observations
@@ -229,6 +231,9 @@ public class POSTagger {
                 else incorrectTags++; // if the computed tag does not match the actual tag, add 1 to the incorrect tags
             }
         }
+
+        sentenceInput.close();
+        tagInput.close();
 
         int totalTags = correctTags + incorrectTags; // compute the total tags as the sum of the correct and incorrect tags
         // print out number of the total tags, correct tags, and incorrect tags

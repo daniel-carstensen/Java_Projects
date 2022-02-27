@@ -228,7 +228,11 @@ public class POSTagger {
             String[] computedTags = Viterbi(sentence); // create an array of the tag computed by Viterbi implementing the HMM
             for (int i = 0; i < testTags.length; i++) { // loop over all tags
                 if (testTags[i].equals(computedTags[i])) correctTags++; // if the computed tag equals the actual tag, add 1 to the correct tags
-                else incorrectTags++; // if the computed tag does not match the actual tag, add 1 to the incorrect tags
+                else {
+                    System.out.println(sentence[i] + " : " + computedTags[i] + " : " + testTags[i]);
+                    System.out.println(Arrays.toString(sentence));
+                    incorrectTags++; // if the computed tag does not match the actual tag, add 1 to the incorrect tags
+                }
             }
         }
 
@@ -244,10 +248,11 @@ public class POSTagger {
 
     // train the model and run the tests
     public static void main(String[] args) throws IOException {
-//        POSTagger test = new POSTagger("PS5/example-sentences.txt", "PS5/example-tags.txt", "PS5/example-sentences.txt", "PS5/example-tags.txt");
-        //POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
-        POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
-        test.trainModel();
+        // POSTagger test = new POSTagger("PS5/example-sentences.txt", "PS5/example-tags.txt", "PS5/example-sentences.txt", "PS5/example-tags.txt");
+         POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
+         //POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
+         //POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/report-test-sentences.txt", "PS5/report-test-tags.txt");
+         test.trainModel();
         System.out.println(test.observations);
         System.out.println(test.transitions);
 //        String[] testString = {"will", "eats", "the", "fish"};

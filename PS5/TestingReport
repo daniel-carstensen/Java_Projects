@@ -1,0 +1,47 @@
+Examples of new correctly and incorrectly tagged sentences:
+
+Because of the nature of the training method and viterbi algorithm, the tagger is not built to handle uncommon
+word uses and strange sentence structures.  We have created 6 new example sentences using 3 key words in 2
+different ways each to show how the algorithm can correctly or incorrectly tag a word according to how it is used
+in a sentence.  These sentences and their tags can be found in report-test-sentences.txt and report-test-tags.txt
+
+First, the word void. Void is most commonly used as a noun, but can also be used as an adjective.  As a result,
+in the test sentence: "He looked deep into the void" 'void' is correctly tagged as a noun.  However, in the
+alternative use of the word as in the sentence "The breach makes the contract void" the algorithm trained with the
+brown corpus incorrectly marks 'void' as a noun, instead of an adjective.
+
+Second, the word 'private' can be an adjective to describe something that is not public, or it can refer to a
+soldier of the lowest military rank.  As a result, the test sentence "She told him the news was private" correctly
+tags the word as an adjective while in the sentence "Private Wallace followed the command" the algorithm incorrectly
+labels 'Private' as an adjective again.
+
+Third, the word 'will' can be used as a modular verb to describe something that will happen or as a noun to
+describe the internal motivator of a person known as 'the will.'  Because of these two uses, the sentence
+"he will be strong" is correctly tagged with the modular verb 'will' while the sentence "his will is weak"
+incorrectly tags 'will' as a modular verb instead of a noun.
+
+These incorrect tags are a result of the fact that the algorithm is meant to search only for the MOST LIKELY part
+of speech for each verb, and cannot take in a sentence like a human brain with knowledge of a language can.
+
+Discussion of testing performance:
+
+When run with an unseen-word penalty of -100, our program receives the expected correct/incorrect value of 32 tags
+right and 5 wrong for simple, and 35109 right vs. 1285 wrong for brown.  The results are the same when the
+unseen-word penalty is raised, but they change if it is sufficiently lowered.  Theoretically, we can expect that a
+lower unseen-word penalty will allow for the algorithm to correctly identify word that were used in different ways
+than any testing example why a lower unseen-word penalty will also allow for the algorithm to incorrectly identify
+words by assuming strange uses because the penalty for these uses is low.  We find that, as expected, the number of
+correct tags changes in response to a change in the unseen-word penalty as documented below:
+
+Unseen World Penalty: -16
+Correct tags: 35116
+Incorrect tags: 1278
+
+Unseen World Penalty: -10
+Correct tags: 32386
+Incorrect tags: 4008
+
+Unseen World Penalty: -1000
+Correct tags: 35109
+Incorrect tags: 1285
+

@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/PS3" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/PS4" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/PS5" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/PS6" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

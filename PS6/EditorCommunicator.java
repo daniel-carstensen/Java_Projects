@@ -42,17 +42,17 @@ public class EditorCommunicator extends Thread {
 	 * Keeps listening for and handling (your code) messages from the server
 	 */
 	public void run() {
-		try {
-			// Handle messages
-			// TODO: YOUR CODE HERE
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally {
-			System.out.println("server hung up");
-		}
-	}	
+//		try {
+//			// Handle messages
+//			// TODO: YOUR CODE HERE
+//		}
+//		catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		finally {
+//			System.out.println("server hung up");
+//		}
+	}
 
 	// Send editor requests to the server
 	// TODO: YOUR CODE HERE

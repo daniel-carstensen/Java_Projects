@@ -36,10 +36,11 @@ public class Editor extends JFrame {
 	private int movingId = -1;					// current shape id (if any; else -1) being moved
 	private Point drawFrom = null;				// where the drawing started
 	private Point moveFrom = null;				// where object is as it's being dragged
+	private ArrayList<Point> freehandPoints;    // the current points in the freehand drawing
 
 
 	// Communication
-	private EditorCommunicator comm;			// communication with the sketch server
+	//private EditorCommunicator comm;			// communication with the sketch server
 
 	public Editor() {
 		super("Graphical Editor");
@@ -47,8 +48,8 @@ public class Editor extends JFrame {
 		sketch = new Sketch();
 
 		// Connect to server
-		comm = new EditorCommunicator(serverIP, this);
-		comm.start();
+		// comm = new EditorCommunicator(serverIP, this);
+		// comm.start();
 
 		// Helpers to create the canvas and GUI (buttons, etc.)
 		JComponent canvas = setupCanvas();
@@ -168,7 +169,10 @@ public class Editor extends JFrame {
 	 * along with the object currently being drawn in this editor (not yet part of the sketch)
 	 */
 	public void drawSketch(Graphics g) {
-		// TODO: YOUR CODE HERE
+		sketch.draw(g);
+		if (curr != null) {
+			curr.draw(g);
+		}
 	}
 
 	// Helpers for event handlers
@@ -181,7 +185,52 @@ public class Editor extends JFrame {
 	 * in deleting mode, (request to) delete clicked shape
 	 */
 	private void handlePress(Point p) {
-		// TODO: YOUR CODE HERE
+		// In drawing mode, start drawing a new shape
+		if (mode == Mode.DRAW) {
+			if (curr == null) {
+				drawFrom = p;
+				// "ellipse", "freehand", "rectangle", "segment"
+				if (shapeType.equals("ellipse")) {
+					curr = new Ellipse((int)p.getX(), (int)p.getY(), color);
+				}
+				if (shapeType.equals("freehand")) {
+					curr = new Polyline((int)p.getX(), (int)p.getY(), color);
+					freehandPoints = new ArrayList<>();
+					freehandPoints.add(p);
+				}
+				if (shapeType.equals("rectangle")) {
+					curr = new Rectangle((int)p.getX(), (int)p.getY(), color);
+				}
+				if (shapeType.equals("segment")) {
+					curr = new Segment((int)p.getX(), (int)p.getY(), color);
+				}
+				repaint();
+			}
+		}
+		// In moving mode, start dragging if clicked in the shape
+		if (mode == Mode.MOVE) {
+			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
+			if (clickedShapeID != null) {
+				movingId = clickedShapeID;
+				moveFrom = p;
+			}
+		}
+		// In recoloring mode, change the shape's color if clicked in it
+		if (mode == Mode.RECOLOR) {
+			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
+			if (clickedShapeID != null) {
+				sketch.getShape(clickedShapeID).setColor(color);
+				repaint();
+			}
+		}
+		// In deleting mode, delete the shape if clicked in it
+		if (mode == Mode.DELETE) {
+			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
+			if (clickedShapeID != null) {
+				sketch.removeShape(clickedShapeID);
+				repaint();
+			}
+		}
 	}
 
 	/**
@@ -190,7 +239,31 @@ public class Editor extends JFrame {
 	 * in moving mode, (request to) drag the object
 	 */
 	private void handleDrag(Point p) {
-		// TODO: YOUR CODE HERE
+		// In drawing mode, revise the shape as it is stretched out
+		if (mode == Mode.DRAW) {
+			if (shapeType == "ellipse") {
+				curr = new Ellipse((int)drawFrom.getX(), (int)drawFrom.getY(), (int)p.getX(), (int)p.getY(), color);
+			}
+			if (shapeType.equals("freehand")) {
+				freehandPoints.add(p);
+				curr = new Polyline(freehandPoints, color);
+			}
+			if (shapeType.equals("rectangle")) {
+				curr = new Rectangle((int)drawFrom.getX(), (int)drawFrom.getY(), (int)p.getX(), (int)p.getY(), color);
+			}
+			if (shapeType.equals("segment")) {
+				curr = new Segment((int)drawFrom.getX(), (int)drawFrom.getY(), (int)p.getX(), (int)p.getY(), color);
+			}
+			repaint();
+		}
+		// In moving mode, shift the object and keep track of where next step is from
+		if (mode == Mode.MOVE) {
+			if (moveFrom != null && movingId != -1) {
+				sketch.getShape(movingId).moveBy((int)(p.getX() - moveFrom.getX()), (int)(p.getY() - moveFrom.getY()));
+				moveFrom = p;
+				repaint();
+			}
+		}
 	}
 
 	/**
@@ -199,7 +272,16 @@ public class Editor extends JFrame {
 	 * in moving mode, release it		
 	 */
 	private void handleRelease() {
-		// TODO: YOUR CODE HERE
+		if (mode == Mode.DRAW) {
+			sketch.addShape(curr);
+			curr = null;
+			freehandPoints = null;
+			repaint();
+		}
+		if (mode == Mode.MOVE) {
+			moveFrom = null;
+			movingId = -1;
+		}
 	}
 
 	public static void main(String[] args) {

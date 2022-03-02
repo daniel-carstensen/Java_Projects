@@ -28,10 +28,7 @@ public class Rectangle implements Shape {
 	 * Rectangle with all 4 corners defined
 	 */
 	public Rectangle(int x1, int y1, int x2, int y2, Color color) {
-		this.x1 = x1;
-		this.x2 = x2;
-		this.y1 = y1;
-		this.y2 = y2;
+		setCorners(x1, y1, x2, y2);
 		this.color = color;
 	}
 
@@ -70,7 +67,7 @@ public class Rectangle implements Shape {
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(color);
-		g.drawRect(x1, y1, (x2 - x1), (y2 - y1));
+		g.fillRect(x1, y1, (x2 - x1), (y2 - y1));
 	}
 
 	public String toString() {

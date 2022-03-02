@@ -20,6 +20,11 @@ public class Polyline implements Shape {
 		this.color = color;
 	}
 
+	public Polyline(ArrayList<Point> points, Color color) {
+		this.points = points;
+		this.color = color;
+	}
+
 	@Override
 	public void moveBy(int dx, int dy) {
 		for (Point point : points) {

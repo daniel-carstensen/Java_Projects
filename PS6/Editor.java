@@ -40,16 +40,16 @@ public class Editor extends JFrame {
 
 
 	// Communication
-	//private EditorCommunicator comm;			// communication with the sketch server
+	private EditorCommunicator comm;			// communication with the sketch server
 
 	public Editor() {
 		super("Graphical Editor");
 
 		sketch = new Sketch();
 
-		// Connect to server
-		// comm = new EditorCommunicator(serverIP, this);
-		// comm.start();
+		 // Connect to server
+		 comm = new EditorCommunicator(serverIP, this);
+		 comm.start();
 
 		// Helpers to create the canvas and GUI (buttons, etc.)
 		JComponent canvas = setupCanvas();

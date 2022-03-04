@@ -164,6 +164,10 @@ public class Editor extends JFrame {
 		return sketch;
 	}
 
+	public void setSketch(Sketch sketch) {
+		this.sketch = sketch;
+	}
+
 	/**
 	 * Draws all the shapes in the sketch,
 	 * along with the object currently being drawn in this editor (not yet part of the sketch)
@@ -220,6 +224,7 @@ public class Editor extends JFrame {
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
 				sketch.getShape(clickedShapeID).setColor(color);
+				comm.send(clickedShapeID + " " + sketch.getShape(clickedShapeID));
 				repaint();
 			}
 		}
@@ -228,6 +233,7 @@ public class Editor extends JFrame {
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
 				sketch.removeShape(clickedShapeID);
+				comm.send(clickedShapeID + " remove");
 				repaint();
 			}
 		}
@@ -273,12 +279,16 @@ public class Editor extends JFrame {
 	 */
 	private void handleRelease() {
 		if (mode == Mode.DRAW) {
-			sketch.addShape(curr);
+			Integer id = sketch.addShape(curr);
+			comm.send(id + " " + curr.toString());
 			curr = null;
 			freehandPoints = null;
 			repaint();
 		}
 		if (mode == Mode.MOVE) {
+			if (movingId != -1) {
+				comm.send(movingId + " " + sketch.getShape(movingId).toString());
+			}
 			moveFrom = null;
 			movingId = -1;
 		}

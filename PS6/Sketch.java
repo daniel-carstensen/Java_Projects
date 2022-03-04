@@ -15,6 +15,7 @@ public class Sketch {
     public void removeShape(Integer id) {
         sketch.remove(id);
     }
+
     public int addShape(Shape shape) {
         int id = (int)(Math.random()*100000);
         while (sketch.containsKey(id)) {
@@ -23,6 +24,12 @@ public class Sketch {
         sketch.put(id, shape);
         return id;
     }
+
+    public void addShapeID(Integer id, Shape shape) {
+        sketch.put(id, shape);
+    }
+
+
 
     public Integer contains(int x, int y) {
         for (Integer key : sketch.descendingKeySet()) {

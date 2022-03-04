@@ -1,5 +1,7 @@
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Handles communication to/from the server for the editor
@@ -42,16 +44,47 @@ public class EditorCommunicator extends Thread {
 	 * Keeps listening for and handling (your code) messages from the server
 	 */
 	public void run() {
-//		try {
-//			// Handle messages
-//			// TODO: YOUR CODE HERE
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		finally {
-//			System.out.println("server hung up");
-//		}
+		try {
+			String line;
+			Sketch sketch = editor.getSketch();
+			while ((line = in.readLine()) != null) {
+				System.out.println("message received");
+				System.out.println(line);
+				String[] pieces = line.split(" ");
+				Integer id = Integer.parseInt(pieces[0]);
+				if (pieces[1].equals("ellipse")) {
+					sketch.addShapeID(id, new Ellipse(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
+							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+				}
+				else if (pieces[1].equals("rectangle")) {
+					sketch.addShapeID(id, new Rectangle(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
+							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+				}
+				else if (pieces[1].equals("segment")) {
+					sketch.addShapeID(id, new Segment(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
+							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+				}
+				else if (pieces[1].equals("polyline")) {
+					ArrayList<Point> points = new ArrayList<>();
+					int i = 2;
+					while (!pieces[i + 2].equals(":")) {
+						points.add(new Point(Integer.parseInt(pieces[i]), Integer.parseInt(pieces[i + 1])));
+						i += 2;
+					}
+					sketch.addShapeID(id, new Polyline(points, new Color(Integer.parseInt(pieces[i + 3]))));
+				}
+				else if (pieces[1].equals("remove")) {
+					sketch.removeShape(id);
+				}
+			}
+			editor.setSketch(sketch);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			System.out.println("server hung up");
+		}
 	}
 
 	// Send editor requests to the server

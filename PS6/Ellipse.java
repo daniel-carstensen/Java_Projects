@@ -53,6 +53,7 @@ public class Ellipse implements Shape {
 
 	@Override
 	public void moveBy(int dx, int dy) {
+		// update all x and y values based on the change as indicated by dx and dy
 		x1 += dx; y1 += dy;
 		x2 += dx; y2 += dy;
 	}
@@ -75,6 +76,7 @@ public class Ellipse implements Shape {
 
 	@Override
 	public String toString() {
+		// toString() gives all relevant information for defining the ellipse
 		return "ellipse "+x1+" "+y1+" "+x2+" "+y2+" "+color.getRGB();
 	}
 }

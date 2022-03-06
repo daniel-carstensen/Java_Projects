@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Fall 2012
  * @author Chris Bailey-Kellogg; overall structure substantially revised Winter 2014
  * @author Travis Peters, Dartmouth CS 10, Winter 2015; remove EditorCommunicatorStandalone (use echo server for testing)
+ * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022; completed for PSet 6
  */
 public class EditorCommunicator extends Thread {
 	private PrintWriter out;		// to server
@@ -22,11 +23,12 @@ public class EditorCommunicator extends Thread {
 		this.editor = editor;
 		System.out.println("connecting to " + serverIP + "...");
 		try {
-			Socket sock = new Socket(serverIP, 4242);
-			out = new PrintWriter(sock.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			Socket sock = new Socket(serverIP, 4242); // connect to the server with specified socket
+			out = new PrintWriter(sock.getOutputStream(), true); // output to server
+			in = new BufferedReader(new InputStreamReader(sock.getInputStream())); // input from server
 			System.out.println("...connected");
 		}
+		// print error if couldn't connect to server
 		catch (IOException e) {
 			System.err.println("couldn't connect");
 			System.exit(-1);
@@ -41,17 +43,19 @@ public class EditorCommunicator extends Thread {
 	}
 
 	/**
-	 * Keeps listening for and handling (your code) messages from the server
+	 * Keeps listening for and handling messages from the server
 	 */
 	public void run() {
 		try {
-			String line;
-			Sketch sketch = editor.getSketch();
+			String line; // create a message variable
+			Sketch sketch = editor.getSketch(); //  get local sketch
 			while ((line = in.readLine()) != null) {
 				System.out.println("message received");
 				System.out.println(line);
-				String[] pieces = line.split(" ");
-				Integer id = Integer.parseInt(pieces[0]);
+				String[] pieces = line.split(" "); // split message
+				Integer id = Integer.parseInt(pieces[0]); // define shape ID
+				// create a shape using the ID in the local sketch based on the instructions in the message
+				// repaint the editor
 				if (pieces[1].equals("ellipse")) {
 					sketch.addShapeID(id, new Ellipse(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
@@ -77,23 +81,31 @@ public class EditorCommunicator extends Thread {
 					sketch.addShapeID(id, new Polyline(points, new Color(Integer.parseInt(pieces[i + 3]))));
 					editor.repaint();
 				}
+				// move a shape using the ID in the local sketch based on the instructions in the message
+				// repaint the editor
 				else if (pieces[1].equals("move")) {
 					sketch.getShape(id).moveBy(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]));
 					editor.repaint();
 				}
+				// recolor a shape using the ID in the local sketch based on the instructions in the message
+				// repaint the editor
 				else if (pieces[1].equals("recolor")) {
 					sketch.getShape(id).setColor(new Color(Integer.parseInt(pieces[2])));
 					editor.repaint();
 				}
+				// delete a shape using the ID in the local sketch based on the instructions in the message
+				// repaint the editor
 				else if (pieces[1].equals("remove")) {
 					sketch.removeShape(id);
 					editor.repaint();
 				}
 			}
 		}
+		// catch error
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		// print when server stops running
 		finally {
 			System.out.println("server hung up");
 		}

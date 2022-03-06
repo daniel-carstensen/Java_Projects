@@ -12,6 +12,7 @@ import javax.swing.*;
  * @author CBK, winter 2014, overall structure substantially revised
  * @author Travis Peters, Dartmouth CS 10, Winter 2015; remove EditorCommunicatorStandalone (use echo server for testing)
  * @author CBK, spring 2016 and Fall 2016, restructured Shape and some of the GUI
+ * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022; completed for PSet 6
  */
 
 public class Editor extends JFrame {	

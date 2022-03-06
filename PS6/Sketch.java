@@ -1,6 +1,11 @@
 import java.awt.*;
 import java.util.TreeMap;
 
+/**
+ * Sketch class that holds a map of ID's and associated shapes
+ *
+ * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022, created for PSet 6
+ */
 public class Sketch {
     private TreeMap<Integer, Shape> sketch; // initialize sketch as TreeMap with ID and the shape for the ID
 
@@ -30,6 +35,11 @@ public class Sketch {
         return shape;
     }
 
+    /**
+     * removes a shape from the map using its ID
+     *
+     * @param id id of the shape
+     */
     public void removeShape(Integer id) {
         // if the sketch contains the id parameter
         if (sketch.keySet().contains(id)) {

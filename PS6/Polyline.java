@@ -9,6 +9,7 @@ import java.util.List;
  * 
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Spring 2016
  * @author CBK, updated Fall 2016
+ * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022; completed for PSet 6
  */
 public class Polyline implements Shape {
 	private ArrayList<Point> points; // list of all points, connected by lines, that compose the Polyline
@@ -35,7 +36,6 @@ public class Polyline implements Shape {
 		this.points = points; // when a list of points is passed in, set the current list to it
 		this.color = color;
 	}
-
 
 	@Override
 	public void moveBy(int dx, int dy) {

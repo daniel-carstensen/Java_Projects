@@ -7,6 +7,7 @@ import java.awt.Graphics;
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Fall 2012
  * @author CBK, revised Fall 2016 with simpler distance method to more easily support polyline
  * @author CBK, Fall 2016, added constructors and setters
+ * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022, completed for PSet 6
  */
 public class Segment implements Shape {
 	private int x1, y1, x2, y2;		// two endpoints

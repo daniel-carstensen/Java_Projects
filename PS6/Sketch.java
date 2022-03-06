@@ -1,12 +1,12 @@
 import java.awt.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.TreeMap;
 
 public class Sketch {
     private TreeMap<Integer, Shape> sketch;
 
-    public Sketch() {
-        this.sketch = new TreeMap<>();
-    }
+    public Sketch() { this.sketch = new TreeMap<>(); }
 
     public TreeMap<Integer, Shape> getSketch() { return sketch; }
 
@@ -30,8 +30,6 @@ public class Sketch {
     public void addShapeID(Integer id, Shape shape) {
         sketch.put(id, shape);
     }
-
-
 
     public Integer contains(int x, int y) {
         for (Integer key : sketch.descendingKeySet()) {

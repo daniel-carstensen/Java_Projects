@@ -164,10 +164,6 @@ public class Editor extends JFrame {
 		return sketch;
 	}
 
-	public void setSketch(Sketch sketch) {
-		this.sketch = sketch;
-	}
-
 	/**
 	 * Draws all the shapes in the sketch,
 	 * along with the object currently being drawn in this editor (not yet part of the sketch)
@@ -193,34 +189,42 @@ public class Editor extends JFrame {
 		if (mode == Mode.DRAW) {
 			if (curr == null) {
 				drawFrom = p;
-				// "ellipse", "freehand", "rectangle", "segment"
 				if (shapeType.equals("ellipse")) {
+					// create a new ellipse with the initial point
 					curr = new Ellipse((int)p.getX(), (int)p.getY(), color);
 				}
 				if (shapeType.equals("freehand")) {
+					// create a new ellipse with the initial point
 					curr = new Polyline((int)p.getX(), (int)p.getY(), color);
+					// initialize the freehandPoints list to hold newly added points as the polyline is drawn
 					freehandPoints = new ArrayList<>();
+					// add the initial point to the list
 					freehandPoints.add(p);
 				}
 				if (shapeType.equals("rectangle")) {
+					// create a new rectangle with the initial point
 					curr = new Rectangle((int)p.getX(), (int)p.getY(), color);
 				}
 				if (shapeType.equals("segment")) {
+					// create a new segment with the initial point
 					curr = new Segment((int)p.getX(), (int)p.getY(), color);
 				}
-				repaint();
+				repaint(); // repaint with new shape
 			}
 		}
 		// In moving mode, start dragging if clicked in the shape
 		if (mode == Mode.MOVE) {
+			// get the id of the moving shape if one was clicked on
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
+				// set initial conditions for moving
 				movingId = clickedShapeID;
 				moveFrom = p;
 			}
 		}
 		// In recoloring mode, change the shape's color if clicked in it
 		if (mode == Mode.RECOLOR) {
+			// if a shape was clicked on, get its ID and send a recolor message
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
 				comm.send(clickedShapeID + " " + "recolor" + " " + color.getRGB());
@@ -228,6 +232,7 @@ public class Editor extends JFrame {
 		}
 		// In deleting mode, delete the shape if clicked in it
 		if (mode == Mode.DELETE) {
+			// if a shape was clicked on, get its ID and send a remove message
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
 				comm.send(clickedShapeID + " " + "remove");
@@ -243,6 +248,7 @@ public class Editor extends JFrame {
 	private void handleDrag(Point p) {
 		// In drawing mode, revise the shape as it is stretched out
 		if (mode == Mode.DRAW) {
+			// as the mouse moves before being released, update the shape according to its
 			if (shapeType == "ellipse") {
 				curr = new Ellipse((int)drawFrom.getX(), (int)drawFrom.getY(), (int)p.getX(), (int)p.getY(), color);
 			}
@@ -261,7 +267,10 @@ public class Editor extends JFrame {
 		// In moving mode, shift the object and keep track of where next step is from
 		if (mode == Mode.MOVE) {
 			if (moveFrom != null && movingId != -1) {
+				// send a message with the ID of the shape being moved and the distance being moved in the x
+				// and y directions
 				comm.send(movingId + " " + "move" + " " + (int)(p.getX() - moveFrom.getX()) + " " + (int)(p.getY() - moveFrom.getY()));
+				// then update the point being moved from
 				moveFrom = p;
 			}
 		}
@@ -274,12 +283,15 @@ public class Editor extends JFrame {
 	 */
 	private void handleRelease() {
 		if (mode == Mode.DRAW) {
+			// when a shape is done being drawn, send a draw message through the communicator
 			comm.send(curr.toString());
+			// and set current drawing variables back to null
 			curr = null;
 			freehandPoints = null;
-			repaint();
+			repaint(); // and repaint
 		}
 		if (mode == Mode.MOVE) {
+			// stop moving
 			moveFrom = null;
 			movingId = -1;
 		}

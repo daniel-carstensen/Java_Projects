@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Fall 2012
  * @author Chris Bailey-Kellogg; overall structure substantially revised Winter 2014
  * @author Travis Peters, Dartmouth CS 10, Winter 2015; remove EditorCommunicatorStandalone (use echo server for testing)
- * @author Max Lawrence, Daniel Carstensen, Dartmouth CS10, Winter 2022; completed for PSet 6
  */
 public class EditorCommunicator extends Thread {
 	private PrintWriter out;		// to server
@@ -42,32 +41,31 @@ public class EditorCommunicator extends Thread {
 	}
 
 	/**
-	 * Keeps listening for and handling messages from the server
+	 * Keeps listening for and handling (your code) messages from the server
 	 */
 	public void run() {
 		try {
-			String line; // create a variable to hold the current line
-			Sketch sketch = editor.getSketch(); // get the local sketch
-			while ((line = in.readLine()) != null) { // while we get messages from the server
+			String line;
+			Sketch sketch = editor.getSketch();
+			while ((line = in.readLine()) != null) {
 				System.out.println("message received");
 				System.out.println(line);
-				String[] pieces = line.split(" "); // split up the line
-				Integer id = Integer.parseInt(pieces[0]); // the first piece is the id of the shape
-				// add a shape to the local sketch based on the information contained in the message
+				String[] pieces = line.split(" ");
+				Integer id = Integer.parseInt(pieces[0]);
 				if (pieces[1].equals("ellipse")) {
 					sketch.addShapeID(id, new Ellipse(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
-					editor.repaint(); // repaint
+					editor.repaint();
 				}
 				else if (pieces[1].equals("rectangle")) {
 					sketch.addShapeID(id, new Rectangle(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
-					editor.repaint(); // repaint
+					editor.repaint();
 				}
 				else if (pieces[1].equals("segment")) {
 					sketch.addShapeID(id, new Segment(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
-					editor.repaint(); // repaint
+					editor.repaint();
 				}
 				else if (pieces[1].equals("polyline")) {
 					ArrayList<Point> points = new ArrayList<>();
@@ -77,30 +75,25 @@ public class EditorCommunicator extends Thread {
 						i += 2;
 					}
 					sketch.addShapeID(id, new Polyline(points, new Color(Integer.parseInt(pieces[i + 3]))));
-					editor.repaint(); // repaint
+					editor.repaint();
 				}
-				// move a shape based on the information contained in the message
 				else if (pieces[1].equals("move")) {
 					sketch.getShape(id).moveBy(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]));
 					editor.repaint();
 				}
-				// recolor a shape based on the information contained in the message
 				else if (pieces[1].equals("recolor")) {
 					sketch.getShape(id).setColor(new Color(Integer.parseInt(pieces[2])));
 					editor.repaint();
 				}
-				// remove a shape based on the information contained in the message
 				else if (pieces[1].equals("remove")) {
 					sketch.removeShape(id);
 					editor.repaint();
 				}
 			}
 		}
-		// catch error
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		// notify if server stops running
 		finally {
 			System.out.println("server hung up");
 		}

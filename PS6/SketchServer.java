@@ -8,43 +8,36 @@ import java.io.*;
  * updating the overall state, and passing them on to the clients
  *
  * @author Chris Bailey-Kellogg, Dartmouth CS 10, Fall 2012; revised Winter 2014 to separate SketchServerCommunicator
- * @author Max Lawrence, Daniel Carstensen, CS10, Winter 2022; completed for PSet 6
  */
 public class SketchServer {
 	private ServerSocket listen;						// for accepting connections
 	private ArrayList<SketchServerCommunicator> comms;	// all the connections with clients
 	private Sketch sketch;								// the state of the world
-
-	/**
-	 * Establish the server with corresponding socket and master sketch
-	 *
-	 * @param listen socket
-	 */
+	private SLLQueue<String> changeRequests;
+	
 	public SketchServer(ServerSocket listen) {
 		this.listen = listen;
 		sketch = new Sketch();
 		comms = new ArrayList<SketchServerCommunicator>();
+		changeRequests = new SLLQueue<>();
 	}
 
-	/**
-	 * returns the master sketch
-	 *
-	 * @return sketch
-	 */
 	public Sketch getSketch() {
 		return sketch;
 	}
+
+	public SLLQueue<String> getChangeRequests() { return changeRequests; }
 
 	/**
 	 * The usual loop of accepting connections and firing off new threads to handle them
 	 */
 	public void getConnections() throws IOException {
 		System.out.println("server ready for connections");
-		while (true) { // always run
-			SketchServerCommunicator comm = new SketchServerCommunicator(listen.accept(), this); // create a communicator
-			comm.setDaemon(true); // stop this thread when the main thread ends
-			comm.start(); // start the communicator
-			addCommunicator(comm); // add it to the list of communicator
+		while (true) {
+			SketchServerCommunicator comm = new SketchServerCommunicator(listen.accept(), this);
+			comm.setDaemon(true);
+			comm.start();
+			addCommunicator(comm);
 		}
 	}
 
@@ -70,7 +63,7 @@ public class SketchServer {
 			comm.send(msg);
 		}
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		new SketchServer(new ServerSocket(4242)).getConnections();
 	}

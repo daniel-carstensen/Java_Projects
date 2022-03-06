@@ -39,7 +39,7 @@ public class SketchServerCommunicator extends Thread {
 			out = new PrintWriter(sock.getOutputStream(), true);
 
 			// Tell the client the current state of the world
-			// TODO: YOUR CODE HERE
+			if (!server.getSketch().getSketch().isEmpty()) { send(server.getSketch().toString()); }
 
 			// Keep getting and handling messages from the client
 			String line;

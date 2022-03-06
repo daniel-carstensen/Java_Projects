@@ -8,6 +8,8 @@ public class Sketch {
         this.sketch = new TreeMap<>();
     }
 
+    public TreeMap<Integer, Shape> getSketch() { return sketch; }
+
     public Shape getShape(Integer id) {
         return sketch.get(id);
     }
@@ -43,7 +45,10 @@ public class Sketch {
     public String toString() {
         String str = "";
         for (Integer key : sketch.navigableKeySet()) {
-            str += sketch.get(key).toString() + "\n";
+            if (!str.isEmpty()) {
+                str += "\n";
+            }
+            str += key + " " + sketch.get(key).toString();
         }
         return str;
     }

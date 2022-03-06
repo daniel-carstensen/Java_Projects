@@ -223,18 +223,14 @@ public class Editor extends JFrame {
 		if (mode == Mode.RECOLOR) {
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
-				sketch.getShape(clickedShapeID).setColor(color);
-				comm.send(clickedShapeID + " " + sketch.getShape(clickedShapeID));
-				repaint();
+				comm.send(clickedShapeID + " " + "recolor" + " " + color.getRGB());
 			}
 		}
 		// In deleting mode, delete the shape if clicked in it
 		if (mode == Mode.DELETE) {
 			Integer clickedShapeID = sketch.contains((int)p.getX(), (int)p.getY());
 			if (clickedShapeID != null) {
-				sketch.removeShape(clickedShapeID);
-				comm.send(clickedShapeID + " remove");
-				repaint();
+				comm.send(clickedShapeID + " " + "remove");
 			}
 		}
 	}
@@ -265,9 +261,8 @@ public class Editor extends JFrame {
 		// In moving mode, shift the object and keep track of where next step is from
 		if (mode == Mode.MOVE) {
 			if (moveFrom != null && movingId != -1) {
-				sketch.getShape(movingId).moveBy((int)(p.getX() - moveFrom.getX()), (int)(p.getY() - moveFrom.getY()));
+				comm.send(movingId + " " + "move" + " " + (int)(p.getX() - moveFrom.getX()) + " " + (int)(p.getY() - moveFrom.getY()));
 				moveFrom = p;
-				repaint();
 			}
 		}
 	}
@@ -279,16 +274,12 @@ public class Editor extends JFrame {
 	 */
 	private void handleRelease() {
 		if (mode == Mode.DRAW) {
-			Integer id = sketch.addShape(curr);
-			comm.send(id + " " + curr.toString());
+			comm.send(curr.toString());
 			curr = null;
 			freehandPoints = null;
 			repaint();
 		}
 		if (mode == Mode.MOVE) {
-			if (movingId != -1) {
-				comm.send(movingId + " " + sketch.getShape(movingId).toString());
-			}
 			moveFrom = null;
 			movingId = -1;
 		}

@@ -55,14 +55,17 @@ public class EditorCommunicator extends Thread {
 				if (pieces[1].equals("ellipse")) {
 					sketch.addShapeID(id, new Ellipse(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+					editor.repaint();
 				}
 				else if (pieces[1].equals("rectangle")) {
 					sketch.addShapeID(id, new Rectangle(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+					editor.repaint();
 				}
 				else if (pieces[1].equals("segment")) {
 					sketch.addShapeID(id, new Segment(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]),
 							Integer.parseInt(pieces[4]), Integer.parseInt(pieces[5]), new Color(Integer.parseInt(pieces[6]))));
+					editor.repaint();
 				}
 				else if (pieces[1].equals("polyline")) {
 					ArrayList<Point> points = new ArrayList<>();
@@ -72,12 +75,21 @@ public class EditorCommunicator extends Thread {
 						i += 2;
 					}
 					sketch.addShapeID(id, new Polyline(points, new Color(Integer.parseInt(pieces[i + 3]))));
+					editor.repaint();
+				}
+				else if (pieces[1].equals("move")) {
+					sketch.getShape(id).moveBy(Integer.parseInt(pieces[2]), Integer.parseInt(pieces[3]));
+					editor.repaint();
+				}
+				else if (pieces[1].equals("recolor")) {
+					sketch.getShape(id).setColor(new Color(Integer.parseInt(pieces[2])));
+					editor.repaint();
 				}
 				else if (pieces[1].equals("remove")) {
 					sketch.removeShape(id);
+					editor.repaint();
 				}
 			}
-			editor.setSketch(sketch);
 		}
 		catch (IOException e) {
 			e.printStackTrace();

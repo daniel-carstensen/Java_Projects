@@ -40,7 +40,7 @@ public class SketchServerCommunicator extends Thread {
 	 *
 	 * @param line message
 	 */
-	public synchronized void handleLine(String line) {
+	public void handleLine(String line) {
 		Sketch sketch = server.getSketch(); // get the master sketch
 		int id; // create an ID variable
 		String[] pieces = line.split(" "); // split up the message

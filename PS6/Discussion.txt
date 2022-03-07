@@ -6,4 +6,5 @@ be compromised. For instance, one communicator is processing unfinished changes 
 Now a different communicator begins changing the master sketch. This might lead to errors or deletion of particular
 changes made. To account for this, we created a synchronized method in the server communicator that handles one
 particular request, i.e. one line sent by the editor communicator. The synchronization allows the server communicator
-to process all changes requested in the line before the OS is able to stop and jump.
+to process the change requested in the line before the OS is able to stop and jump.  In this way, we have atomized the
+process of taking the master sketch from the server and updating it.

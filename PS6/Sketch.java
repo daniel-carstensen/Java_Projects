@@ -15,14 +15,14 @@ public class Sketch {
      */
     public Sketch() { this.sketch = new TreeMap<>(); }
 
-    public TreeMap<Integer, Shape> getSketch() { return sketch; }
+    public synchronized TreeMap<Integer, Shape> getSketch() { return sketch; }
 
     /**
      * Gets the shape from the id key in the sketch
      * @param id the ID of the shape being requested
      * @return the shape matching the ID
      */
-    public Shape getShape(Integer id) {
+    public synchronized Shape getShape(Integer id) {
         Shape shape;
         // if the sketch has a shape matching the parameter id
         if (sketch.keySet().contains(id)) {
@@ -40,7 +40,7 @@ public class Sketch {
      *
      * @param id id of the shape
      */
-    public void removeShape(Integer id) {
+    public synchronized void removeShape(Integer id) {
         // if the sketch contains the id parameter
         if (sketch.keySet().contains(id)) {
             // remove the shape at that id
@@ -53,7 +53,7 @@ public class Sketch {
      * @param shape the shape being added to the sketch
      * @return the ID assigned to the shape
      */
-    public int addShape(Shape shape) {
+    public synchronized int addShape(Shape shape) {
         // create a new ID, and keep creating a new one until the ID is not yet in the sketch
         int id = (int)(Math.random()*100000);
         while (sketch.containsKey(id)) {
@@ -68,6 +68,7 @@ public class Sketch {
      * Add a shape with a specific ID
      * @param id id to add with the shape to the sketch
      * @param shape shape to add to the sketch
+     * not synchronized because never called in SketchServerCommunicator
      */
     public void addShapeID(Integer id, Shape shape) {
         sketch.put(id, shape);
@@ -78,8 +79,9 @@ public class Sketch {
      * @param x x value of the point
      * @param y y value of the point
      * @return the newest shape that contains the point, or null if no shapes contain the point
+     * not synchronized because never called in SketchServerCommunicator
      */
-    public Integer contains(int x, int y) {
+    public synchronized Integer contains(int x, int y) {
         // check if each shape contains the point, starting at the latest added shape and moving down
         for (Integer key : sketch.descendingKeySet()) {
             if (sketch.get(key).contains(x, y)) {
@@ -90,7 +92,11 @@ public class Sketch {
         return null;
     }
 
-    public String toString() {
+    /**
+     * Constructs and returns a string where each line is the details for a different shape in the sketch
+     * @return the completed string
+     */
+    public synchronized String toString() {
         String str = "";
         // for each shape in the sketch, add a line with the id of the shape and its details
         for (Integer key : sketch.navigableKeySet()) {
@@ -102,6 +108,11 @@ public class Sketch {
         return str; // return the final string
     }
 
+    /**
+     * Draws each shape in the sketch
+     * @param g graphics
+     * not synchronized because never called in SketchServerCommunicator
+     */
     public void draw(Graphics g) {
         // draw each shape in the sketch, from oldest to newest
         for (Integer key : sketch.navigableKeySet()) {

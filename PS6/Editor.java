@@ -17,7 +17,8 @@ import javax.swing.*;
 
 public class Editor extends JFrame {	
 	private static String serverIP = "localhost";			// IP address of sketch server
-	// "localhost" for your own machine;
+	// "localhost" for your own machine
+
 	// or ask a friend for their IP address
 
 	private static final int width = 800, height = 800;		// canvas size

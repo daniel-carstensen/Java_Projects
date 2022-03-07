@@ -110,8 +110,4 @@ public class EditorCommunicator extends Thread {
 			System.out.println("server hung up");
 		}
 	}
-
-	// Send editor requests to the server
-	// TODO: YOUR CODE HERE
-	
 }

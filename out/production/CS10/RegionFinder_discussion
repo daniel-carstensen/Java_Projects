@@ -1,0 +1,13 @@
+Generally, RegionFinder uses several methods to find the largest region of a color in an image that is input into it.
+First, findRegions scans every pixel in the image and stores the location of all regions in the image
+in the regions arraylist. The regions themselves are identified every time findRegions encounters an pixel with a color
+that is close enough to the target color. The colorMatch method uses euclidean distance to calculate if any color
+is close enough to the target color. If the color is a match, findRegions calls regionGrowth. regionGrowth
+initializes two arraylists. A list storing pixels to be visited and pixels that have been visited. regionGrowth runs
+until there are no more points to be visited. For every point to be visited, reginGrowth adds the point itself to the
+list of visited pixels and analyzes the colors of all 8 points surrounding it and adds those whose color matches with
+the target color via colorMatch to the list of pixels to be visited. It also colors the point in helperImage,
+a copy of the actual image, black so that we can track which points have already been added to the list.
+By the end of the process, we have a list of all points that have matched with the target color: a region.
+This process is repeated until all points in the image have been analyzed and we have a record of all regions in the
+regions list. Finally, largestRegion selects the largest region from the regions list.

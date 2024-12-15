@@ -1,0 +1,10 @@
+We identified a particular issue, we might run into while in multithreaded operation. Since the OS jumps between
+threads at unpredictable times leaving processes in one thread unfinished while computing code in a different thread,
+problems might arise when multiple server communicator threads are in the middle of handling a request by modifying
+the mast sketch but cannot complete the request because the OS stops the thread and jumps to a different server
+communicator. That way the master sketch could be compromised. For instance, one communicator is processing unfinished
+changes on the master sketch when the OS stops. Now a different communicator begins changing the master sketch.
+This might lead to errors or deletion of particular changes made. To account for this, we synchronized all methods
+in the sketch class that the server communicators access while handling requests by the editors. The synchronization
+only allows one server communicator to work on the change requested on the master sketch before the OS is able to
+stop it and jump. In this way, we have atomized the process of modifying the master sketch.

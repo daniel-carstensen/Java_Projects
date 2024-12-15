@@ -1,0 +1,20 @@
+"C:\Program Files\Java\jdk-17.0.1\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.1\lib\idea_rt.jar=54238:C:\Program Files\JetBrains\IntelliJ IDEA 2021.3.1\bin" -Dfile.encoding=UTF-8 -classpath C:\Documents\IdeaProjects\cs10\lib\libs\opencv.jar;C:\Documents\IdeaProjects\cs10\lib\libs\javacv.jar;C:\Documents\IdeaProjects\cs10\lib\libs\openblas-windows-x86_64.jar;C:\Documents\IdeaProjects\cs10\lib\libs\opencv-windows-x86_64.jar;C:\Documents\IdeaProjects\cs10\lib\libs\json-simple-1.1.1.jar;C:\Documents\IdeaProjects\cs10\lib\libs\net-datastructures-4-0.jar;C:\Users\maxla\CS10\out\production\CS10 GraphBuilder
+Testing on small, test files:
+# of Vertices: 7
+# of Edges: 14
+Vertices: [Bob, Alice, Charlie, Nobody, Nobody's Friend, Kevin Bacon, Dartmouth (Earl thereof)]
+Out edges: {Bob={Alice=[A movie], Charlie=[C movie], Kevin Bacon=[A movie]}, Alice={Bob=[A movie], Charlie=[D movie], Kevin Bacon=[A movie, E movie]}, Charlie={Bob=[C movie], Alice=[D movie], Dartmouth (Earl thereof)=[B movie]}, Nobody={Nobody's Friend=[F movie]}, Nobody's Friend={Nobody=[F movie]}, Kevin Bacon={Bob=[A movie], Alice=[A movie, E movie]}, Dartmouth (Earl thereof)={Charlie=[B movie]}}
+
+For test, printing all edges from Kevin Bacon:
+# of Actors connected to Kevin Bacon: 2
+[Bob, Alice]
+
+Now testing on real files:
+# of Vertices: 9235
+# of Edges: 63026
+
+For test, printing all edges from Kevin Bacon:
+# of Actors connected to Kevin Bacon: 80
+[Mickey Rourke, Matt Dillon, Elizabeth McGovern, Joe Mantegna, Kevin Costner, Jack Nicholson, Charles Gitonga Maina, Gary Sinise, Jennifer Aniston, Mark Ruffalo, William Windom, Bob Hoskins, Lori Singer, Josh Brolin, David Strathairn, Sean Penn, Meg Ryan, Rudy Ramos, Embeth Davidtz, Tommy Lee Jones, Tom Cruise, Ron Eldard, Jay Mohr, Demi Moore, Robert De Niro, Zachary David Cope, Jennifer Jason Leigh, Steve Guttenberg, Winston Ntshona, Jim Cummings, Jami Gertz, Joseph Mazzello, John Lithgow, Maximilian Schell, J.T. Walsh, Sean Astin, Finn Carter, Stephanie Sawyer, Karen Young, Jonathan Ward, Courtney Love, Charlize Theron, Alec Baldwin, Evan Rachel Wood, John Malkovich, Illeana Douglas, Paul Rodriguez, William Baldwin, Kiefer Sutherland, Elisabeth Shue, Bill Paxton, Tess Harper, Neve Campbell, Kathryn Erbe, Linda Fiorentino, Daniel Stern, Calista Flockhart, Bridget Fonda, Gary Oldman, Julia Roberts, Mary Stuart Masterson, Christian Slater, Dianne Wiest, Olympia Dukakis, Billy Crudup, Laurence Fishburne, Michael Gross, Meryl Streep, K.C. Martel, Tim Robbins, Stuart Townsend, Marian Seldes, Emily Longstreth, Kim Dickens, Brad Renfro, Denise Richards, Tom Hanks, Yolanda Vazquez, Fred Ward, Laurie Metcalf]
+
+Process finished with exit code 0

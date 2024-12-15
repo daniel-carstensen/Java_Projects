@@ -249,8 +249,8 @@ public class POSTagger {
     // train the model and run the tests
     public static void main(String[] args) throws IOException {
         // POSTagger test = new POSTagger("PS5/example-sentences.txt", "PS5/example-tags.txt", "PS5/example-sentences.txt", "PS5/example-tags.txt");
-         POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
-         //POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
+        // POSTagger test = new POSTagger("PS5/simple-train-sentences.txt", "PS5/simple-train-tags.txt", "PS5/simple-test-sentences.txt", "PS5/simple-test-tags.txt");
+         POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/brown-test-sentences.txt", "PS5/brown-test-tags.txt");
          //POSTagger test = new POSTagger("PS5/brown-train-sentences.txt", "PS5/brown-train-tags.txt", "PS5/report-test-sentences.txt", "PS5/report-test-tags.txt");
          test.trainModel();
         System.out.println(test.observations);
